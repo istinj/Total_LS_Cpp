@@ -12,7 +12,11 @@ include_directories(include
 	${Boost_INCLUDE_DIR})
 
 #c++ executable
-set(SRCS src/tls_main.cpp src/World.cpp src/utilities.cpp)
+set(SRCS 
+	src/tls_main.cpp 
+	src/World.cpp 
+	src/utilities.cpp
+	src/Solver.cpp)
 add_executable(tls_main_app ${SRCS})
 
 # Specify libraries to link a library or executable target against

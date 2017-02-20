@@ -114,6 +114,30 @@ tls_main_app/fast:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/build
 .PHONY : tls_main_app/fast
 
+src/Solver.o: src/Solver.cpp.o
+.PHONY : src/Solver.o
+
+# target to build an object file
+src/Solver.cpp.o:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.o
+.PHONY : src/Solver.cpp.o
+
+src/Solver.i: src/Solver.cpp.i
+.PHONY : src/Solver.i
+
+# target to preprocess a source file
+src/Solver.cpp.i:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.i
+.PHONY : src/Solver.cpp.i
+
+src/Solver.s: src/Solver.cpp.s
+.PHONY : src/Solver.s
+
+# target to generate assembly for a file
+src/Solver.cpp.s:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.s
+.PHONY : src/Solver.cpp.s
+
 src/World.o: src/World.cpp.o
 .PHONY : src/World.o
 
@@ -195,6 +219,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... tls_main_app"
+	@echo "... src/Solver.o"
+	@echo "... src/Solver.i"
+	@echo "... src/Solver.s"
 	@echo "... src/World.o"
 	@echo "... src/World.i"
 	@echo "... src/World.s"

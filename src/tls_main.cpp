@@ -3,6 +3,8 @@
 #include <Eigen/Core>
 
 #include "World.h"
+#include "Solver.h"
+
 using namespace std;
 
 World* w;

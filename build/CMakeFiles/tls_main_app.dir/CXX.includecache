@@ -6,10 +6,16 @@
 
 #IncludeRegexTransform: 
 
-../include/World.h
+../include/Solver.h
 Eigen/Core
 -
-boost/random.hpp
+Eigen/StdVector
+-
+utilities.h
+../include/utilities.h
+
+../include/World.h
+Eigen/Core
 -
 utilities.h
 ../include/utilities.h
@@ -35,6 +41,8 @@ Eigen/Core
 -
 World.h
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.h
+Solver.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core
@@ -538,6 +546,14 @@ src/Eigen2Support/SVD.h
 src/Core/util/ReenableStupidWarnings.h
 /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h
 
+/usr/include/eigen3/Eigen/StdVector
+Core
+/usr/include/eigen3/Eigen/Core
+vector
+-
+src/StlSupport/StdVector.h
+/usr/include/eigen3/Eigen/src/StlSupport/StdVector.h
+
 /usr/include/eigen3/Eigen/src/Cholesky/LDLT.h
 
 /usr/include/eigen3/Eigen/src/Cholesky/LLT.h
@@ -1009,6 +1025,12 @@ Eigen/src/Core/util/MKL_support.h
 /usr/include/eigen3/Eigen/src/SVD/Eigen/src/Core/util/MKL_support.h
 
 /usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h
+
+/usr/include/eigen3/Eigen/src/StlSupport/StdVector.h
+Eigen/src/StlSupport/details.h
+/usr/include/eigen3/Eigen/src/StlSupport/Eigen/src/StlSupport/details.h
+
+/usr/include/eigen3/Eigen/src/StlSupport/details.h
 
 /usr/include/eigen3/Eigen/src/misc/Image.h
 

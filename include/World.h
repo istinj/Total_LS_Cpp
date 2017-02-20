@@ -10,14 +10,11 @@
 #define IMG_COLS 540
 #define IMG_ROWS 480
 #include <Eigen/Core>
-#include <boost/random.hpp>
-
 #include "utilities.h"
 
 
 class World {
 public:
-	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	World();
 	virtual ~World();
 
@@ -35,8 +32,9 @@ public:
 	//! If flag == false -> prints the estiamted poses;
 	void printAllPoses(const bool flag);
 	void printAllLandmarks(const bool flag);
-	void printMeasurement(const int idx);
-	void printProjection(const int idx);
+	void printLandMeas(const int idx);
+	void printProjMeas(const int idx);
+	void printOdomMeas(const int idx);
 
 private:
 	//! Init TRUE Poses (random)
@@ -55,6 +53,10 @@ private:
 			const Eigen::Vector3f& xl,
 			Eigen::Vector2f& projected_point);
 
+	//! Generate Odometry Measurements of the robot
+	//! trajectory
+	void generateOdometryMeas(void);
+
 	//! Generate (WRONG) Poses and Landmarks to be
 	//! optimized
 	void generatePerturbatedPoses(void);
@@ -66,6 +68,7 @@ private:
 	int _num_poses = -1;
 	int _num_landmark_meas = -1;
 	int _num_projection_meas = -1;
+	int _num_odometry_meas = -1;
 	int _world_size = -1;
 
 	float _perturbation_dev = -1;
@@ -79,10 +82,13 @@ private:
 
 	std::vector<Eigen::Vector3f> _Zl_vec;		//! Landmark Measurements
 	std::vector<Eigen::Vector2f> _Zp_vec;		//! Projection Measurements
-	std::vector<Association> _projection_associations;
+	std::vector<Eigen::Matrix4f> _Zr_vec;		//! Odometry Measurements
 	std::vector<Association> _landmark_associations;
+	std::vector<Association> _projection_associations;
+	std::vector<Association> _pose_associations;
 
-
+public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 };
 
 #endif /* WORLD_H_ */
