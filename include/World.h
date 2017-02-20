@@ -7,6 +7,8 @@
 #pragma once
 #ifndef WORLD_H_
 #define WORLD_H_
+#define IMG_COLS 540
+#define IMG_ROWS 480
 #include <Eigen/Core>
 #include <boost/random.hpp>
 
@@ -19,41 +21,67 @@ public:
 	World();
 	virtual ~World();
 
+	void initWorld(float n_poses,
+			float n_land,
+			float world_size);
+
+	void getPoses(std::vector<Eigen::Matrix4f>& dest);
+	void getLandmarks(std::vector<Eigen::Vector3f>& dest);
+	void getZl(std::vector<Eigen::Vector3f>& dest);
+	void getZp(std::vector<Eigen::Vector2f>& dest);
+
+	//! ONLY FOR DEBUG
+	//! If flag == true -> prints the true poses;
+	//! If flag == false -> prints the estiamted poses;
+	void printAllPoses(const bool flag);
+	void printAllLandmarks(const bool flag);
+	void printMeasurement(const int idx);
+	void printProjection(const int idx);
+
+private:
 	//! Init TRUE Poses (random)
 	void initPoses(void);
 	//! Init TRUE Landmarks (random)
 	void initLandmarks(void);
 
-	//! Generate Landmark Obs, supposing that
+	//! Generate Landmark Measurements, supposing that
 	//! each pose observes every landmark
-	void generateLandmarkObs(void);
+	void generateLandmarkMeas(void);
 
-	//! If flag == true -> prints the true poses;
-	//! If flag == false -> prints the estiamted poses;
-	void printAllPoses(bool flag);
-	void printAllLandmarks(bool flag);
-	void printMeasurements(int idx);
-private:
+	//! Generate Landmark Projection Measurements,
+	//! supposing that each pose observes every landmark
+	void generateProjectionsMeas(void);
+	bool projectPoint(const Eigen::Matrix4f& xr,
+			const Eigen::Vector3f& xl,
+			Eigen::Vector2f& projected_point);
+
+	//! Generate (WRONG) Poses and Landmarks to be
+	//! optimized
+	void generatePerturbatedPoses(void);
+	void generatePerturbatedLandmarks(void);
+
+
 	//! General parameters of the synthetic world
 	int _num_landmarks = -1;
 	int _num_poses = -1;
-	int _world_size = -1;
 	int _num_landmark_meas = -1;
+	int _num_projection_meas = -1;
+	int _world_size = -1;
 
-	//! Landmarks true pos
-	std::vector<Eigen::Vector3f> _XL_true_vec;
-	//! Landmarks est pos
-	std::vector<Eigen::Vector3f> _xl_vec;
+	float _perturbation_dev = -1;
 
-	//! Robot true poses
-	std::vector<Eigen::Matrix4f> _XR_true_vec;
-	//! Robot est poses
-	std::vector<Eigen::Matrix4f> _xr_vec;
+	Eigen::Matrix3f _K;							//! Camera matrix
+	std::vector<Eigen::Vector3f> _XL_true_vec;	//! Landmarks true pos
+	std::vector<Eigen::Vector3f> _XL_vec;		//! Landmarks est pos
 
-	//! Meas vector
-	std::vector<Eigen::Vector3f> _Zl_vec;
-	//! Data association poses-landmarks
-	std::vector<Association> _pose_land_association_vec;
+	std::vector<Eigen::Matrix4f> _XR_true_vec;	//! Robot true poses
+	std::vector<Eigen::Matrix4f> _XR_vec;		//! Robot est poses
+
+	std::vector<Eigen::Vector3f> _Zl_vec;		//! Landmark Measurements
+	std::vector<Eigen::Vector2f> _Zp_vec;		//! Projection Measurements
+	std::vector<Association> _projection_associations;
+	std::vector<Association> _landmark_associations;
+
 
 };
 
