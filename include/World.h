@@ -26,6 +26,17 @@ public:
 	void getLandmarks(std::vector<Eigen::Vector3f>& dest);
 	void getZl(std::vector<Eigen::Vector3f>& dest);
 	void getZp(std::vector<Eigen::Vector2f>& dest);
+	void getZr(std::vector<Eigen::Matrix4f>& dest);
+
+	inline std::vector<Eigen::Matrix4f> poses(void){return _XR_vec;}
+	inline std::vector<Eigen::Vector3f> landmarks(void){return _XL_vec;}
+	inline std::vector<Eigen::Vector3f> zl(void){return _Zl_vec;}
+	inline std::vector<Eigen::Vector2f> zp(void){return _Zp_vec;}
+	inline std::vector<Eigen::Matrix4f> zr(void){return _Zr_vec;}
+	inline std::vector<Association> lAssoc(void){return _landmark_associations;}
+	inline std::vector<Association> pAssoc(void){return _projection_associations;}
+	inline std::vector<Association> rAssoc(void){return _pose_associations;}
+	inline Eigen::Matrix3f K(void){return _K;}
 
 	//! ONLY FOR DEBUG
 	//! If flag == true -> prints the true poses;

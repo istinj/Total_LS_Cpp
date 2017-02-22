@@ -11,3 +11,14 @@ Matrix4f v2t(const Vector6f& v){
 	T.block<3,1>(0,3) = v.block<3,1>(0,0);
 	return T;
 }
+
+Eigen::Matrix3f skew(const Eigen::Vector3f& p)
+{
+	Eigen::Matrix3f s;
+	s <<
+		0,  -p.z(), p.y(),
+		p.z(), 0,  -p.x(),
+		-p.y(), p.x(), 0;
+	return s;
+}
+

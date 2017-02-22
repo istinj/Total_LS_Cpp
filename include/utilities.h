@@ -32,4 +32,5 @@ struct Association{
 };
 
 Eigen::Matrix4f v2t(const Vector6f& v);
+Eigen::Matrix3f skew(const Eigen::Vector3f& p);
 

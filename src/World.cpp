@@ -67,6 +67,12 @@ void World::getZp(std::vector<Eigen::Vector2f>& dest){
 		dest[i] = _Zp_vec[i];
 }
 
+void World::getZr(std::vector<Eigen::Matrix4f>& dest){
+	dest.resize(_Zr_vec.size());
+	for(int i = 0; i < _Zr_vec.size(); i++)
+		dest[i] = _Zr_vec[i];
+}
+
 void World::initPoses(void) {
 	if(_num_poses == -1){
 		cerr << "World not initialized!" << endl << "EXITING" << endl;
