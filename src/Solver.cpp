@@ -184,6 +184,42 @@ bool Solver::errorAndJacobianProj(const Eigen::Matrix4f& xr,
 //! ---------------------- ODOMETRY --------------------- //
 void Solver::linearizeOdometry(Eigen::MatrixXf& out_H,
 		Eigen::VectorXf& out_b, float& out_chi, int& inliers){
+	Vector12f e = Vector12f::Zero();
+	Matrix12_6f Ji = Matrix12_6f::Zero();
+	Matrix12_6f Jj = Matrix12_6f::Zero();
+	out_chi = 0;
+	inliers = 0;
+	for(int meas_idx = 0; meas_idx < _zr.size(); meas_idx++){
+		int pose_i_idx = _r_assoc[meas_idx].x_idx;
+		int pose_j_idx = _r_assoc[meas_idx].h_idx;
+		Matrix4f Xi = _robot_poses[pose_i_idx];
+		Matrix4f Xj = _robot_poses[pose_j_idx];
+		Matrix4f Z = _zr[meas_idx];
+
+		Matrix<float, 12, 12> Omega = Matrix<float, 12, 12>::Identity();
+		Omega.block<9,9>(0,0) *= 1000.0;
+
+		errorAndJacobianOdometry(Xi, Xj, Z, e, Ji, Jj);
+		float chi = e.transpose() * Omega * e;
+		if(chi > _threshold){
+			Omega *= sqrt(_threshold/chi);
+			chi = _threshold;
+		} else {
+			inliers++;
+		}
+		out_chi+=chi;
+
+		int pose_i_matrix_idx = getPoseMatrixIndex(pose_i_idx);
+		int pose_j_matrix_idx = getPoseMatrixIndex(pose_j_idx);
+
+		out_H.block<6,6>(pose_i_matrix_idx, pose_i_matrix_idx).noalias() += Ji.transpose() * Omega * Ji;
+		out_H.block<6,6>(pose_i_matrix_idx, pose_j_matrix_idx).noalias() += Ji.transpose() * Omega * Jj;
+		out_H.block<6,6>(pose_j_matrix_idx, pose_i_matrix_idx).noalias() += Jj.transpose() * Omega * Ji;
+		out_H.block<6,6>(pose_j_matrix_idx, pose_j_matrix_idx).noalias() += Jj.transpose() * Omega * Jj;
+
+		out_b.block<6,1>(pose_i_matrix_idx, 0).noalias() += Ji.transpose() * Omega * e;
+		out_b.block<6,1>(pose_j_matrix_idx, 0).noalias() += Jj.transpose() * Omega * e;
+	}
 	return;
 }
 

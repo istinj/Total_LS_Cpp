@@ -39,12 +39,16 @@ int main(int argc, char const *argv[])
 //	}
 
 	cout << BOLDYELLOW << total_stats.l_chis[0] << "\t" <<
-			total_stats.p_chis[0] << endl;
+			total_stats.p_chis[0] << "\t" <<
+			total_stats.r_chis[0] << endl;
 	cout << BOLDYELLOW << total_stats.l_chis[iters-1] << "\t" <<
-			total_stats.p_chis[iters-1] << endl;
+			total_stats.p_chis[iters-1] << "\t" <<
+			total_stats.r_chis[iters-1] << endl;
 	cout << BOLDCYAN << total_stats.l_inliers[0] << "\t" <<
-			total_stats.p_inliers[0] << RESET << endl;
+			total_stats.p_inliers[0] << RESET << "\t" <<
+			total_stats.r_inliers[0] << endl;
 	cout << BOLDCYAN << total_stats.l_inliers[iters-1] << "\t" <<
-			total_stats.p_inliers[iters-1] << RESET << endl;
+			total_stats.p_inliers[iters-1] << RESET << "\t" <<
+			total_stats.r_inliers[iters-1] << endl;
 	return 0;
 }
