@@ -9,6 +9,8 @@
 #define WORLD_H_
 #define IMG_COLS 540
 #define IMG_ROWS 480
+
+#include <fstream>
 #include <Eigen/Core>
 #include "utilities.h"
 
@@ -46,6 +48,8 @@ public:
 	void printLandMeas(const int idx);
 	void printProjMeas(const int idx);
 	void printOdomMeas(const int idx);
+
+	void exportWorld(const std::string path);
 
 private:
 	//! Init TRUE Poses (random)

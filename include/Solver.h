@@ -108,7 +108,7 @@ private:
 	const int _l_dim = 3;
 	int _problem_dim = -1;
 	float _threshold = 500.0;
-
+	float _threshold_proj = 500.0;
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 };

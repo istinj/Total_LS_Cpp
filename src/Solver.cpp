@@ -40,8 +40,6 @@ void Solver::init(const Matrix4fVector& robot_poses,
 
 	_K = camera_matrix;
 	_problem_dim = _x_dim * _robot_poses.size() + _l_dim * _land_points.size();
-
-	cout << "\t" << BOLDGREEN << "Init OK" << RESET << endl << endl;
 }
 
 //! ---------------------- LANDMARKS --------------------- //
@@ -118,9 +116,9 @@ void Solver::linearizeProjections(Eigen::MatrixXf& out_H,
 		} else {
 			continue;
 		}
-		if(chi > _threshold){
-			e *= sqrt(_threshold/chi);
-			chi = _threshold;
+		if(chi > _threshold_proj){
+			e *= sqrt(_threshold_proj/chi);
+			chi = _threshold_proj;
 		} else {
 			inliers++;
 		}
@@ -295,6 +293,10 @@ void Solver::doIterations(const int iterations,
 	float l_chi, p_chi, r_chi;
 	int l_inl, p_inl, r_inl;
 
+	cout << "\t" << "Iterate " << iterations << " times:" << endl;
+	int percentage = 0;
+	float flag = false;
+
 	for (int i = 0; i < iterations; i++) {
 		H.setZero();
 		b.setZero();
@@ -306,20 +308,27 @@ void Solver::doIterations(const int iterations,
 		final_stats.l_inliers.push_back(l_inl);
 
 		//! Projections
-		linearizeProjections(H, b, p_chi, p_inl); //! OK
+		linearizeProjections(H, b, p_chi, p_inl); //! OK after a lot of iterations
 		final_stats.p_chis.push_back(p_chi);
 		final_stats.p_inliers.push_back(p_inl);
 
-		//! TODO Odom
-		linearizeOdometry(H, b, r_chi, r_inl);
+		//! Odom
+		linearizeOdometry(H, b, r_chi, r_inl); //! OK
 		final_stats.r_chis.push_back(r_chi);
 		final_stats.r_inliers.push_back(r_inl);
 
 		D.setIdentity();
-		H.noalias() += D * 0.1;
+		H.noalias() += D * 0.7;
 		dX = (H.colPivHouseholderQr().solve(-b));
 		dX.block<6,1>(0,0).setZero();
 		boxPlus(dX, _robot_poses, _land_points);
+
+		if(percentage != i * 100 / iterations){
+			percentage = (int)(i * 100 / iterations);
+			if(percentage % 10 == 0)
+				cout << "\t" << percentage << "% completed" << endl;
+		}
+
 	}
 	new_robot_poses.clear();
 	new_robot_poses.resize(_robot_poses.size());

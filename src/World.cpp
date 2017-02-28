@@ -307,3 +307,89 @@ void World::printOdomMeas(const int idx){
 	cout << "P = " << _pose_associations[idx].x_idx << "\t"
 			<< "L = " <<  _pose_associations[idx].h_idx<< endl;
 }
+
+void World::exportWorld(const std::string path){
+	string file_name;
+	ofstream fout;
+
+	file_name = path + "XR_True.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _XR_true_vec.size(); i++){
+		fout << _XR_true_vec[i].col(0).transpose() << " " <<
+				_XR_true_vec[i].col(1).transpose() << " " <<
+				_XR_true_vec[i].col(2).transpose() << " " <<
+				_XR_true_vec[i].col(3).transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "XR_Guess.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _XR_vec.size(); i++){
+		fout << _XR_vec[i].col(0).transpose() << " " <<
+				_XR_vec[i].col(1).transpose() << " " <<
+				_XR_vec[i].col(2).transpose() << " " <<
+				_XR_vec[i].col(3).transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "XL_True.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _XL_true_vec.size(); i++){
+		fout << _XL_true_vec[i].transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "XL_Guess.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _XL_vec.size(); i++){
+		fout << _XL_vec[i].transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "zl.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _Zl_vec.size(); i++){
+		fout << _Zl_vec[i].transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "zp.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _Zp_vec.size(); i++){
+		fout << _Zp_vec[i].transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "zr.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _Zr_vec.size(); i++){
+		fout << _Zr_vec[i].col(0).transpose() << " " <<
+				_Zr_vec[i].col(1).transpose() << " " <<
+				_Zr_vec[i].col(2).transpose() << " " <<
+				_Zr_vec[i].col(3).transpose() << endl;
+	}
+	fout.close();
+
+	file_name = path + "land_ass.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _landmark_associations.size(); i++){
+		fout << _landmark_associations[i].x_idx + 1 << "\t" << _landmark_associations[i].h_idx + 1 << endl;
+	}
+	fout.close();
+
+	file_name = path + "proj_ass.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _landmark_associations.size(); i++){
+		fout << _projection_associations[i].x_idx + 1 << "\t" << _projection_associations[i].h_idx + 1 << endl;
+	}
+	fout.close();
+
+	file_name = path + "pose_ass.txt";
+	fout.open(file_name.c_str());
+	for(int i = 0; i < _pose_associations.size(); i++){
+		fout << _pose_associations[i].x_idx + 1 << "\t" << _pose_associations[i].h_idx + 1 << endl;
+	}
+	fout.close();
+
+	return;
+}
