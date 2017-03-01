@@ -48,6 +48,12 @@ public:
 	void printLandMeas(const int idx);
 	void printProjMeas(const int idx);
 	void printOdomMeas(const int idx);
+	inline void printAllProjMeas(void){
+		std::cout << "printing proj" << std::endl;
+		for (int i = 0; i < _num_projection_meas; ++i) {
+			printProjMeas(i);
+		}
+	}
 
 	void exportWorld(const std::string path);
 

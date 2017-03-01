@@ -20,8 +20,8 @@ int main(int argc, char const *argv[])
 	solver = new Solver();
 
 	cout << BOLDYELLOW << "Initialize the World" <<  RESET << endl;
-	w->initWorld(10.0f, 10.0f, 10.0f);
-	cout << BOLDGREEN << "\tDone!" <<  RESET << endl << endl;;
+	w->initWorld(10.0f, 20.0f, 10.0f);
+	cout << BOLDGREEN << "\tDone!" <<  RESET << endl << endl;
 
 	if(argc < 2) {
 		cerr << BOLDRED << "World is not exported!"<< endl;
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 		cerr << BOLDGREEN << "\tDone!" <<  RESET << endl << endl;;
 	}
 
-	int iters = 100;
+	int iters = 30;
 	cout << BOLDYELLOW << "Initialize Solver" <<  RESET << endl;
 	solver->init(w->poses(),
 			w->landmarks(),
@@ -52,6 +52,7 @@ int main(int argc, char const *argv[])
 //	cout << BOLDCYAN << total_stats.r_inliers[0] << "\t" << total_stats.r_inliers[iters-1] << RESET << endl;
 //	cout << BOLDCYAN << total_stats.l_inliers[0] << "\t" << total_stats.l_inliers[iters-1] << RESET << endl;
 
+
 	cout << BOLDWHITE << "------------------------------ STATS: ------------------------------" << endl;
 	cout << BOLDWHITE << "------------------------------ T = " << BOLDRED << "0" << BOLDWHITE << " ------------------------------" << endl;
 	cout << BOLDWHITE << "CHI LAND\t" << "CHI_PROJ\t" << "CHI_ODOM" << endl;
@@ -60,16 +61,16 @@ int main(int argc, char const *argv[])
 			total_stats.r_chis[0] << endl;
 	cout << BOLDWHITE << "INL_LAND\t" << "INL_PROJ\t" << "INL_ODOM" << endl;
 	cout << BOLDCYAN << total_stats.l_inliers[0] << "\t\t" <<
-			total_stats.p_inliers[0] << RESET << "\t\t" <<
-			total_stats.r_inliers[0] << endl << endl;
+			total_stats.p_inliers[0] << "\t\t" <<
+			total_stats.r_inliers[0] << RESET << endl << endl;
 
 	cout << BOLDWHITE << "------------------------------ T = " << BOLDGREEN << iters << BOLDWHITE << " -----------------------------" << endl;
 	cout << BOLDWHITE << "CHI LAND\t" << "CHI_PROJ\t" << "CHI_ODOM" << endl;
-	cout << BOLDYELLOW << total_stats.l_chis[iters-1] << "\t\t" <<
-			total_stats.p_chis[iters-1] << "\t\t" <<
+	cout << BOLDYELLOW << total_stats.l_chis[iters-1] << "\t" <<
+			total_stats.p_chis[iters-1] << "\t" <<
 			total_stats.r_chis[iters-1] << endl;
 	cout << BOLDCYAN << total_stats.l_inliers[iters-1] << "\t\t" <<
-			total_stats.p_inliers[iters-1] << RESET << "\t\t" <<
-			total_stats.r_inliers[iters-1] << endl;
+			total_stats.p_inliers[iters-1] << "\t\t" <<
+			total_stats.r_inliers[iters-1] << RESET << endl;/**/
 	return 0;
 }

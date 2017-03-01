@@ -317,8 +317,8 @@ void Solver::doIterations(const int iterations,
 		final_stats.r_chis.push_back(r_chi);
 		final_stats.r_inliers.push_back(r_inl);
 
-		D.setIdentity();
-		H.noalias() += D * 0.7;
+//		D.setIdentity();
+//		H.noalias() += D * 0.2;
 		dX = (H.colPivHouseholderQr().solve(-b));
 		dX.block<6,1>(0,0).setZero();
 		boxPlus(dX, _robot_poses, _land_points);

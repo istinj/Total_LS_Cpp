@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+#include <boost/random.hpp>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -33,4 +34,6 @@ struct Association{
 
 Eigen::Matrix4f v2t(const Vector6f& v);
 Eigen::Matrix3f skew(const Eigen::Vector3f& p);
+Eigen::Vector3f random3f(void);
+Eigen::Matrix<float, 6, 1> random6f(void);
 
