@@ -21,24 +21,3 @@ Eigen::Matrix3f skew(const Eigen::Vector3f& p)
 		-p.y(), p.x(), 0;
 	return s;
 }
-
-Eigen::Vector3f random3f(void){
-	Eigen::Vector3f v;
-	boost::mt19937 rng;
-	boost::uniform_01<> uniform;
-	boost::variate_generator<boost::mt19937, boost::uniform_01<>> generator(rng, uniform);
-	for (int i = 0; i < 3; ++i) {
-		v(i) = (float)(generator() - 0.5);
-	}
-	return v;
-}
-Eigen::Matrix<float, 6, 1> random6f(void){
-	Vector6f v;
-	boost::mt19937 rng;
-	boost::uniform_01<> uniform;
-	boost::variate_generator<boost::mt19937, boost::uniform_01<>> generator(rng, uniform);
-	for (int i = 0; i < 6; ++i) {
-		v(i) = (float)(generator() - 0.5);
-	}
-	return v;
-}

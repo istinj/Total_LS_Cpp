@@ -92,7 +92,6 @@ void World::initPoses(void) {
 	for(int i = 0; i < _num_poses - 1; i++){
 		xr_temp = Vector6f::Random();
 		xr_temp *= 0.5f;
-//		xr_temp = random6f();
 		_XR_true_vec.push_back(v2t(scale * xr_temp));
 	}
 }
@@ -105,7 +104,6 @@ void World::initLandmarks(void){
 	Vector3f xl_temp;
 	for(int i = 0; i < _num_landmarks; i++){
 		xl_temp = Vector3f::Random() * _world_size * 0.5f;
-//		xl_temp = random3f() * _world_size;
 		_XL_true_vec.push_back(xl_temp);
 	}
 }
@@ -176,21 +174,6 @@ bool World::projectPoint(const Eigen::Matrix4f& xr,
 	}
 	projected_point << p_cam.x(), p_cam.y();
 	return true;
-
-
-	// OLD
-	/*
-	Matrix3f KT = _K * xr.block<3,3>(0,0);
-	Vector3f pp =  KT * xl + xr.block<3,1>(0,3);
-	pp *= (1./pp.z());
-
-	if(pp.x() < 0 || pp.x() > IMG_COLS ||
-			pp.y() < 0 || pp.y() > IMG_ROWS){
-		projected_point.setZero();
-		return false;
-	}
-	projected_point << pp.x(), pp.y();
-	return true;/**/
 }
 
 void World::generateOdometryMeas(void){
@@ -231,7 +214,6 @@ void World::generatePerturbatedPoses(void){
 	Matrix4f dXR;
 	for(int i = 1; i < _XR_vec.size(); i++){
 		xr_temp = Vector6f::Random()* 0.5f;
-//		xr_temp = random6f();
 		dXR = v2t(scale * xr_temp);
 		_XR_vec[i] = dXR * _XR_true_vec[i];
 	}
@@ -240,8 +222,6 @@ void World::generatePerturbatedPoses(void){
 void World::generatePerturbatedLandmarks(void){
 	_XL_vec.resize(_XL_true_vec.size());
 	Vector3f dXL = Vector3f::Random() * 0.5f * _perturbation_dev;
-//	Vector3f dXL = random3f();
-//	dXL *= _perturbation_dev;
 	for(int i = 0; i < _XL_vec.size(); i++){
 		_XL_vec[i] = _XL_true_vec[i] + dXL;
 	}

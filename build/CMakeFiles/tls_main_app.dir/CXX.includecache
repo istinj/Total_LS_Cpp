@@ -40,10 +40,6 @@ Eigen/Geometry
 boost/random.hpp
 -
 
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp
-World.h
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.h
-
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/tls_main.cpp
 stdio.h
 -

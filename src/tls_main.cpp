@@ -39,19 +39,11 @@ int main(int argc, char const *argv[])
 			w->landmarks(),
 			w->zl(), w->zp(), w->zr(),
 			w->lAssoc(), w->pAssoc(), w->rAssoc(),
-			w->K());
+			w->K(), 0.0f);
 	solver->doIterations(iters,
 			new_robot_poses, new_land_points,
 			total_stats);
 	cout << BOLDGREEN << "End iterations" <<  RESET << endl << endl;;
-
-//	cout << BOLDYELLOW << total_stats.p_chis[0] << "\t" << total_stats.p_chis[iters-1] << endl;
-//	cout << BOLDCYAN << total_stats.p_inliers[0] << "\t" << total_stats.p_inliers[iters-1] << RESET << endl;
-//	cout << BOLDYELLOW << total_stats.r_chis[0] << "\t" << total_stats.r_chis[iters-1] << endl;
-//	cout << BOLDYELLOW << total_stats.l_chis[0] << "\t" << total_stats.l_chis[iters-1] << endl;
-//	cout << BOLDCYAN << total_stats.r_inliers[0] << "\t" << total_stats.r_inliers[iters-1] << RESET << endl;
-//	cout << BOLDCYAN << total_stats.l_inliers[0] << "\t" << total_stats.l_inliers[iters-1] << RESET << endl;
-
 
 	cout << BOLDWHITE << "------------------------------ STATS: ------------------------------" << endl;
 	cout << BOLDWHITE << "------------------------------ T = " << BOLDRED << "0" << BOLDWHITE << " ------------------------------" << endl;
@@ -71,6 +63,6 @@ int main(int argc, char const *argv[])
 			total_stats.r_chis[iters-1] << endl;
 	cout << BOLDCYAN << total_stats.l_inliers[iters-1] << "\t\t" <<
 			total_stats.p_inliers[iters-1] << "\t\t" <<
-			total_stats.r_inliers[iters-1] << RESET << endl;/**/
+			total_stats.r_inliers[iters-1] << RESET << endl;
 	return 0;
 }

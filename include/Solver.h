@@ -47,7 +47,8 @@ public:
 			const std::vector<Association>& land_association,
 			const std::vector<Association>& proj_association,
 			const std::vector<Association>& odom_association,
-			const Eigen::Matrix3f& camera_matrix);
+			const Eigen::Matrix3f& camera_matrix,
+			const float lambda);
 
 	void doIterations(const int iterations,
 			Matrix4fVector& new_robot_poses,
@@ -109,6 +110,7 @@ private:
 	int _problem_dim = -1;
 	float _threshold = 500.0;
 	float _threshold_proj = 500.0;
+	float _lambda = 0.0;
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 };

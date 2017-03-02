@@ -26,7 +26,8 @@ void Solver::init(const Matrix4fVector& robot_poses,
 		const std::vector<Association>& land_association,
 		const std::vector<Association>& proj_association,
 		const std::vector<Association>& odom_association,
-		const Eigen::Matrix3f& camera_matrix){
+		const Eigen::Matrix3f& camera_matrix,
+		const float lambda){
 	_robot_poses = robot_poses;
 	_land_points = land_points;
 
@@ -40,6 +41,8 @@ void Solver::init(const Matrix4fVector& robot_poses,
 
 	_K = camera_matrix;
 	_problem_dim = _x_dim * _robot_poses.size() + _l_dim * _land_points.size();
+
+	_lambda = lambda;
 }
 
 //! ---------------------- LANDMARKS --------------------- //
@@ -280,12 +283,7 @@ void Solver::doIterations(const int iterations,
 	}
 
 	MatrixXf H(_problem_dim, _problem_dim);
-	MatrixXf H_l(_problem_dim, _problem_dim);
-	MatrixXf H_p(_problem_dim, _problem_dim);
-
 	VectorXf b(_problem_dim);
-	VectorXf b_l(_problem_dim);
-	VectorXf b_p(_problem_dim);
 
 	MatrixXf D(_problem_dim, _problem_dim);
 	VectorXf dX(_problem_dim);
@@ -317,8 +315,8 @@ void Solver::doIterations(const int iterations,
 		final_stats.r_chis.push_back(r_chi);
 		final_stats.r_inliers.push_back(r_inl);
 
-//		D.setIdentity();
-//		H.noalias() += D * 0.2;
+		D.setIdentity();
+		H.noalias() += D * _lambda;
 		dX = (H.colPivHouseholderQr().solve(-b));
 		dX.block<6,1>(0,0).setZero();
 		boxPlus(dX, _robot_poses, _land_points);
