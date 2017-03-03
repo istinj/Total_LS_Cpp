@@ -40,6 +40,14 @@ Eigen/Geometry
 boost/random.hpp
 -
 
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.cpp
+Solver.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.h
+
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp
+World.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.h
+
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/tls_main.cpp
 stdio.h
 -
@@ -51,6 +59,10 @@ World.h
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.h
 Solver.h
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.h
+
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/utilities.cpp
+utilities.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/utilities.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core
