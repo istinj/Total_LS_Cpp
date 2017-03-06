@@ -4,7 +4,6 @@
  *  Created on: 20/feb/2017
  *      Author: istin
  */
-#pragma once
 #ifndef SOLVER_H_
 #define SOLVER_H_
 #define IMG_COLS 540

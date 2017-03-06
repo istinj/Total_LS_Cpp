@@ -14,10 +14,12 @@ include_directories(include
 
 #c++ executable
 set(SRCS 
-	src/tls_main.cpp 
+	src/tls_main.cpp
+	src/Graph.cpp
 	src/World.cpp 
 	src/utilities.cpp
-	src/Solver.cpp)
+	src/Solver.cpp
+	src)
 add_executable(tls_main_app ${SRCS})
 
 # Specify libraries to link a library or executable target against

@@ -114,6 +114,30 @@ tls_main_app/fast:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/build
 .PHONY : tls_main_app/fast
 
+src/Graph.o: src/Graph.cpp.o
+.PHONY : src/Graph.o
+
+# target to build an object file
+src/Graph.cpp.o:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
+.PHONY : src/Graph.cpp.o
+
+src/Graph.i: src/Graph.cpp.i
+.PHONY : src/Graph.i
+
+# target to preprocess a source file
+src/Graph.cpp.i:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.i
+.PHONY : src/Graph.cpp.i
+
+src/Graph.s: src/Graph.cpp.s
+.PHONY : src/Graph.s
+
+# target to generate assembly for a file
+src/Graph.cpp.s:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.s
+.PHONY : src/Graph.cpp.s
+
 src/Solver.o: src/Solver.cpp.o
 .PHONY : src/Solver.o
 
@@ -219,6 +243,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... tls_main_app"
+	@echo "... src/Graph.o"
+	@echo "... src/Graph.i"
+	@echo "... src/Graph.s"
 	@echo "... src/Solver.o"
 	@echo "... src/Solver.i"
 	@echo "... src/Solver.s"

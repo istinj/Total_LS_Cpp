@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <iostream>
 #include <Eigen/Core>
+//#include <Eigen/Geometry>
 
 #include "World.h"
 #include "Solver.h"
+#include "Graph.h"
 
 using namespace std;
+
+
+Graph* graph;
 
 World* w;
 Solver* solver;
@@ -16,6 +21,22 @@ Vector3fVector new_land_points;
 
 int main(int argc, char const *argv[])
 {
+
+
+	graph = new Graph();
+	if(argc == 2){
+		graph->loadFromFile(argv[1]);
+		cout << graph->numLandEdges() << "\t" << graph->numOdomEdges() << endl;
+	}
+
+	return 0;
+
+
+
+	// --------------------------------------------------------------- //
+	// --------------------------- OLD STUFF ------------------------- //
+	// --------------------------------------------------------------- //
+	/*
 	w = new World();
 	solver = new Solver();
 
@@ -64,5 +85,5 @@ int main(int argc, char const *argv[])
 	cout << BOLDCYAN << total_stats.l_inliers[iters-1] << "\t\t" <<
 			total_stats.p_inliers[iters-1] << "\t\t" <<
 			total_stats.r_inliers[iters-1] << RESET << endl;
-	return 0;
+	return 0;/**/
 }

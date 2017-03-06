@@ -75,9 +75,32 @@ CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o.provides: CMakeFiles/tls_main_app
 
 CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o
 
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: ../src/Graph.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Graph.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Graph.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp
+
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tls_main_app.dir/src/Graph.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp > CMakeFiles/tls_main_app.dir/src/Graph.cpp.i
+
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tls_main_app.dir/src/Graph.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp -o CMakeFiles/tls_main_app.dir/src/Graph.cpp.s
+
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires:
+.PHONY : CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires
+
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides.build
+.PHONY : CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides
+
+CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
+
 CMakeFiles/tls_main_app.dir/src/World.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/World.cpp.o: ../src/World.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/World.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/World.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp
 
@@ -100,7 +123,7 @@ CMakeFiles/tls_main_app.dir/src/World.cpp.o.provides.build: CMakeFiles/tls_main_
 
 CMakeFiles/tls_main_app.dir/src/utilities.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/utilities.cpp.o: ../src/utilities.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/utilities.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/utilities.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/utilities.cpp
 
@@ -123,7 +146,7 @@ CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.provides.build: CMakeFiles/tls_m
 
 CMakeFiles/tls_main_app.dir/src/Solver.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/Solver.cpp.o: ../src/Solver.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Solver.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Solver.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.cpp
 
@@ -147,6 +170,7 @@ CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.provides.build: CMakeFiles/tls_main
 # Object files for target tls_main_app
 tls_main_app_OBJECTS = \
 "CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o" \
+"CMakeFiles/tls_main_app.dir/src/Graph.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/World.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/utilities.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/Solver.cpp.o"
@@ -155,6 +179,7 @@ tls_main_app_OBJECTS = \
 tls_main_app_EXTERNAL_OBJECTS =
 
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o
+../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/World.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o
@@ -168,6 +193,7 @@ CMakeFiles/tls_main_app.dir/build: ../bin/tls_main_app
 .PHONY : CMakeFiles/tls_main_app.dir/build
 
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o.requires
+CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/World.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.requires
