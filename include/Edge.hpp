@@ -12,9 +12,11 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-typedef Eigen::Vector3f EdgePosePoint;
-typedef Eigen::Matrix3f OmegaPosePoint;
-typedef Eigen::Isometry3f EdgeOdom;
+namespace optimizer {
+
+typedef Eigen::Vector3f LandmarkMeas;
+typedef Eigen::Matrix3f OmegaLandmark;
+typedef Eigen::Isometry3f OdometryMeas;
 typedef Eigen::Matrix<float, 6, 6> OmegaOdom;
 
 template <class _DataType, class _InfoMatrixType>
@@ -43,6 +45,8 @@ private:
 	_DataType _data;
 	_InfoMatrixType _Omega;
 
+public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 };
 
 template <class _DataType, class _InfoMatrixType>
@@ -74,5 +78,6 @@ void Edge<_DataType, _InfoMatrixType>::setEdge(const std::pair<int, int> associa
 	_data = data_;
 	_Omega = omega_;
 }
+}/* namespace optimizer */
 
 #endif /* EDGE_H_ */

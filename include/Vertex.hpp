@@ -12,14 +12,13 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+namespace optimizer {
+
 typedef Eigen::Isometry3f RobotPose;
-typedef Eigen::Vector3f VertexXYZ;
+typedef Eigen::Vector3f LandmarkXYZ;
 
 template <class _DataType>
 class Vertex{
-private:
-	friend class Graph;
-
 public:
 	Vertex();
 	Vertex(const int id_, const _DataType& data_);
@@ -33,6 +32,9 @@ public:
 private:
 	_DataType _data;
 	int _id;
+
+public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 };
 
 template <class _DataType>
@@ -58,6 +60,6 @@ void Vertex<_DataType>::setVertex(const int id_, const _DataType& data_){
 	_data = data_;
 }
 
-
+}/* namespace optimizer */
 
 #endif /* VERTEX_H_ */

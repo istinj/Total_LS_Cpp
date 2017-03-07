@@ -162,6 +162,54 @@ src/Solver.cpp.s:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.s
 .PHONY : src/Solver.cpp.s
 
+src/SparseOptimizer.o: src/SparseOptimizer.cpp.o
+.PHONY : src/SparseOptimizer.o
+
+# target to build an object file
+src/SparseOptimizer.cpp.o:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o
+.PHONY : src/SparseOptimizer.cpp.o
+
+src/SparseOptimizer.i: src/SparseOptimizer.cpp.i
+.PHONY : src/SparseOptimizer.i
+
+# target to preprocess a source file
+src/SparseOptimizer.cpp.i:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.i
+.PHONY : src/SparseOptimizer.cpp.i
+
+src/SparseOptimizer.s: src/SparseOptimizer.cpp.s
+.PHONY : src/SparseOptimizer.s
+
+# target to generate assembly for a file
+src/SparseOptimizer.cpp.s:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.s
+.PHONY : src/SparseOptimizer.cpp.s
+
+src/SparseSolver.o: src/SparseSolver.cpp.o
+.PHONY : src/SparseSolver.o
+
+# target to build an object file
+src/SparseSolver.cpp.o:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o
+.PHONY : src/SparseSolver.cpp.o
+
+src/SparseSolver.i: src/SparseSolver.cpp.i
+.PHONY : src/SparseSolver.i
+
+# target to preprocess a source file
+src/SparseSolver.cpp.i:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.i
+.PHONY : src/SparseSolver.cpp.i
+
+src/SparseSolver.s: src/SparseSolver.cpp.s
+.PHONY : src/SparseSolver.s
+
+# target to generate assembly for a file
+src/SparseSolver.cpp.s:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.s
+.PHONY : src/SparseSolver.cpp.s
+
 src/World.o: src/World.cpp.o
 .PHONY : src/World.o
 
@@ -249,6 +297,12 @@ help:
 	@echo "... src/Solver.o"
 	@echo "... src/Solver.i"
 	@echo "... src/Solver.s"
+	@echo "... src/SparseOptimizer.o"
+	@echo "... src/SparseOptimizer.i"
+	@echo "... src/SparseOptimizer.s"
+	@echo "... src/SparseSolver.o"
+	@echo "... src/SparseSolver.i"
+	@echo "... src/SparseSolver.s"
 	@echo "... src/World.o"
 	@echo "... src/World.i"
 	@echo "... src/World.s"

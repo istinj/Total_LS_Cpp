@@ -15,9 +15,11 @@ include_directories(include
 #c++ executable
 set(SRCS 
 	src/tls_main.cpp
+	src/utilities.cpp
+	src/SparseOptimizer.cpp
+	src/SparseSolver.cpp
 	src/Graph.cpp
 	src/World.cpp 
-	src/utilities.cpp
 	src/Solver.cpp
 	src)
 add_executable(tls_main_app ${SRCS})

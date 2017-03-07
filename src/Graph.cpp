@@ -15,38 +15,47 @@
 using namespace std;
 using namespace Eigen;
 
-
+namespace optimizer {
 
 Graph::Graph() {
 	// TODO Auto-generated constructor stub
 
 }
 
+Graph::Graph(const Graph& graph_){
+	_vertices_SE3 = graph_._vertices_SE3;
+	_vertices_XYZ = graph_._vertices_XYZ;
+	_edges_land = graph_._edges_land;
+	_edges_odom = graph_._edges_odom;
+}
+
+Graph::Graph(const string& path_to_graph_){
+	loadFromFile(path_to_graph_);
+}
+
 Graph::~Graph() {
 	// TODO Auto-generated destructor stub
 }
 
-void Graph::addVertexSE3(const Vertex<RobotPose>& vertex_){
+void Graph::addVertexSE3(const VertexSE3& vertex_){
 	_vertices_SE3.push_back(vertex_);
 }
 
-void Graph::addVertexXYZ(const Vertex<VertexXYZ>& vertex_){
+void Graph::addVertexXYZ(const VertexXYZ& vertex_){
 	_vertices_XYZ.push_back(vertex_);
 }
 
-void Graph::addEdgePosePoint(const Edge<EdgePosePoint, OmegaPosePoint>& edge_){
+void Graph::addEdgePosePoint(const EdgePosePoint& edge_){
 	_edges_land.push_back(edge_);
 }
 
-void Graph::addEdgeOdom(const Edge<EdgeOdom, OmegaOdom>& edge_){
+void Graph::addEdgeOdom(const EdgeOdometry& edge_){
 	_edges_odom.push_back(edge_);
 }
 
-void Graph::loadFromFile(const char* filename){
+void Graph::loadFromFile(const string& filename){
+	cout << BOLDYELLOW << "\t" << "Opening file " << filename << RESET << endl;
 	fstream file(filename);
-
-	Vertex<RobotPose> vertex_se3;
-	Vertex<VertexXYZ> vertex_xyz;
 
 	string line;
 	while(getline(file, line)){
@@ -61,11 +70,12 @@ void Graph::loadFromFile(const char* filename){
 		// process different elements
 		if(element_type == VERTEX_3F){
 			int id = -1;
-			Vector3f p;
+			LandmarkXYZ p;
 
 			ss >> id;
 			ss >> p.x() >> p.y() >> p.z();
 
+			VertexXYZ vertex_xyz;
 			vertex_xyz.setVertex(id, p);
 			addVertexXYZ(vertex_xyz);
 		}
@@ -85,6 +95,7 @@ void Graph::loadFromFile(const char* filename){
 			T.linear() = rot;
 			T.translation() = t;
 
+			VertexSE3 vertex_se3;
 			vertex_se3.setVertex(id, T);
 			addVertexSE3(vertex_se3);
 		}
@@ -95,10 +106,10 @@ void Graph::loadFromFile(const char* filename){
 			ss >> IDs.first >> IDs.second;
 			ss >> sens_id;
 
-			EdgePosePoint z_land;
+			LandmarkMeas z_land;
 			ss >> z_land.x() >> z_land.y() >> z_land.z();
 
-			OmegaPosePoint omega_land;
+			OmegaLandmark omega_land;
 			ss >> omega_land.row(0)(0) >> omega_land.row(0)(1) >> omega_land.row(0)(2) >>
 					omega_land.row(1)(1) >> omega_land.row(1)(2) >>
 					omega_land.row(2)(2);
@@ -106,7 +117,7 @@ void Graph::loadFromFile(const char* filename){
 				for(int j = i + 1; j < omega_land.cols(); ++j)
 					omega_land(j,i) = omega_land(i,j);
 
-			Edge<EdgePosePoint, OmegaPosePoint> edge_pose_point;
+			EdgePosePoint edge_pose_point;
 			edge_pose_point.setEdge(IDs, sens_id, z_land, omega_land);
 			addEdgePosePoint(edge_pose_point);
 		}
@@ -123,12 +134,12 @@ void Graph::loadFromFile(const char* filename){
 
 			Matrix3f rot = q.toRotationMatrix();
 
-			EdgeOdom odom_meas;
+			OdometryMeas odom_meas;
 			odom_meas.linear() = rot;
 			odom_meas.translation() = t;
 
 			OmegaOdom omega_odom;
-			ss >> omega_odom.row(0)(0) >> omega_odom.row(0)(1) >> omega_odom.row(0)(2) >> omega_odom.row(0)(3) >> omega_odom.row(0)(4) >> omega_odom.row(0)(5) >>
+			ss >> 	omega_odom.row(0)(0) >> omega_odom.row(0)(1) >> omega_odom.row(0)(2) >> omega_odom.row(0)(3) >> omega_odom.row(0)(4) >> omega_odom.row(0)(5) >>
 					omega_odom.row(1)(1) >> omega_odom.row(1)(2) >> omega_odom.row(1)(3) >> omega_odom.row(1)(4) >> omega_odom.row(1)(5) >>
 					omega_odom.row(2)(2) >> omega_odom.row(2)(3) >> omega_odom.row(2)(4) >> omega_odom.row(2)(5) >>
 					omega_odom.row(3)(3) >> omega_odom.row(3)(4) >> omega_odom.row(3)(5) >>
@@ -137,10 +148,13 @@ void Graph::loadFromFile(const char* filename){
 			for(int i = 0; i < omega_odom.rows(); ++i)
 				for(int j = i + 1; j < omega_odom.cols(); ++j)
 					omega_odom(j,i) = omega_odom(i,j);
-
-			Edge<EdgeOdom, OmegaOdom> edge_odom;
+			EdgeOdometry edge_odom;
 			edge_odom.setEdge(IDs, odom_meas, omega_odom);
 			addEdgeOdom(edge_odom);
 		}
 	}
+	cout << BOLDGREEN << "\t" << "File loaded successfully:" << endl;
+	cout << "\t" << _vertices_SE3.size() << " Vertices SE3\n\t" << _vertices_XYZ.size() << " Vertices XYZ" << endl;
+	cout << "\t" <<	_edges_land.size() << " Edges XYZ\n\t" << _edges_odom.size() << " Edges Odometry" << RESET << endl;
 }
+}/* namespace optimizer */
