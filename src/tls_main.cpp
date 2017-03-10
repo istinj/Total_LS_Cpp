@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <set>
 #include <Eigen/Core>
 //#include <Eigen/Geometry>
 
@@ -36,6 +37,7 @@ int main(int argc, char const *argv[])
 	}
 
 	optimizer::SparseOptimizer* opt  = new optimizer::SparseOptimizer(dataset_path);
+	opt->optimizeGraph(1);
 
 	delete opt;
 	return 0;

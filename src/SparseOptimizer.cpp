@@ -16,7 +16,6 @@ SparseOptimizer::SparseOptimizer() {
 	// TODO Auto-generated constructor stub
 	_optimizable_graph = new Graph();
 	_sparse_solver = new SparseSolver();
-
 }
 
 SparseOptimizer::SparseOptimizer(const string& filename_) {
@@ -26,7 +25,7 @@ SparseOptimizer::SparseOptimizer(const string& filename_) {
 			_optimizable_graph->verticesXYZ(),
 			_optimizable_graph->edgesOdometry(),
 			_optimizable_graph->edgesPosePoint(),
-			0.0, 500.0);
+			0.0, 25.0);
 }
 
 SparseOptimizer::~SparseOptimizer() {
@@ -41,6 +40,7 @@ void SparseOptimizer::incrementalGraphUpdate(void){
 }
 
 void SparseOptimizer::optimizeGraph(const int iterations_){
+	_sparse_solver->oneStep();
 	return;
 }
 

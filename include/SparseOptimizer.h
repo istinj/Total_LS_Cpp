@@ -33,7 +33,7 @@ public:
 
 private:
 	const Graph* _optimizable_graph = NULL;
-	const SparseSolver* _sparse_solver = NULL;
+	SparseSolver* _sparse_solver = NULL;
 
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;

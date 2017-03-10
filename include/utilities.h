@@ -22,6 +22,9 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+#define X_DIM 6
+#define L_DIM 6
+
 #define PRINT_VAR(x) std::cout << #x << std::endl << x << std::endl;
 
 typedef Eigen::Matrix<float, 6, 1> Vector6f;

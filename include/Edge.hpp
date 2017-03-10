@@ -34,9 +34,10 @@ public:
 			const _DataType data_,
 			const _InfoMatrixType omega_);
 
-	inline const std::pair<int, int> getAssociation(void){return _IDassociation;};
-	inline const _DataType data(void){return _data;};
-	inline const _InfoMatrixType omega(void){return _Omega;};
+	inline const int sensorID(void) const {return _sensor_id;};
+	inline const std::pair<int, int> association(void) const {return _IDassociation;};
+	inline const _DataType& data(void) const {return _data;};
+	inline const _InfoMatrixType& omega(void) const {return _Omega;};
 
 private:
 	std::pair<int, int> _IDassociation;

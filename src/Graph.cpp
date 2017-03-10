@@ -57,6 +57,8 @@ void Graph::loadFromFile(const string& filename){
 	cout << BOLDYELLOW << "\t" << "Opening file " << filename << RESET << endl;
 	fstream file(filename);
 
+	int p_idx = 0;
+	int l_idx = 0;
 	string line;
 	while(getline(file, line)){
 		stringstream ss(line);
@@ -76,8 +78,9 @@ void Graph::loadFromFile(const string& filename){
 			ss >> p.x() >> p.y() >> p.z();
 
 			VertexXYZ vertex_xyz;
-			vertex_xyz.setVertex(id, p);
+			vertex_xyz.setVertex(id, p, l_idx);
 			addVertexXYZ(vertex_xyz);
+			l_idx++;
 		}
 
 		if(element_type == VERTEX_SE3){
@@ -96,8 +99,9 @@ void Graph::loadFromFile(const string& filename){
 			T.translation() = t;
 
 			VertexSE3 vertex_se3;
-			vertex_se3.setVertex(id, T);
+			vertex_se3.setVertex(id, T, p_idx);
 			addVertexSE3(vertex_se3);
+			p_idx++;
 		}
 
 		if(element_type == EDGE_POSE_POINT){
