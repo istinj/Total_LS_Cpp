@@ -7,7 +7,6 @@
 
 #ifndef HESSIAN_H_
 #define HESSIAN_H_
-
 #include <iostream>
 #include <vector>
 #include <Eigen/Core>
@@ -30,35 +29,6 @@ public:
 protected:
 	std::pair<int, int> _indices;
 };
-
-GenericHessian::GenericHessian(){
-	_indices = std::make_pair(-1, -1);
-}
-
-GenericHessian::~GenericHessian(){
-	//! placeholder
-}
-
-GenericHessian& GenericHessian::operator=(const GenericHessian& other_){
-	_indices = other_._indices;
-	return *this;
-}
-
-bool GenericHessian::operator==(const GenericHessian& other_){
-	if(_indices == other_._indices)
-		return true;
-	else
-		return false;
-}
-
-void GenericHessian::set(const std::pair<int, int>& indices_){
-	_indices = indices_;
-}
-
-void GenericHessian::print(void){
-	std::cout << "Hessian block with indices: " << _indices.first <<
-			"\t" << _indices.second << std::endl;
-}
 
 
 //! ----------------------------------------------- !//
@@ -85,6 +55,9 @@ protected:
 	_DataType _data;
 };
 
+//! ----------------------------------------------- !//
+//! --------- Derived class for Hessian ----------- !//
+//! ----------------------------------------------- !//
 template<class _DataType>
 Hessian<_DataType>::Hessian(){
 	_indices = std::make_pair(-1,-1);
@@ -132,6 +105,7 @@ void Hessian<_DataType>::print(void){
 			"\t" << _indices.second << std::endl;
 	std::cout << _data << "\n\n";
 }
+
 
 } /* namespace optimizer */
 

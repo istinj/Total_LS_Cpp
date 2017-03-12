@@ -41,13 +41,6 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 	Matrix3_6f Jr = Matrix3_6f::Zero();
 	Vector3f e = Vector3f::Zero();
 
-	Matrix6f h_pp;
-	Matrix6_3f h_pl;
-	Matrix3_6f h_lp;
-	Matrix3f h_ll;
-	Vector6f b_pose;
-	Vector3f b_land;
-
 	total_chi_= 0.0;
 	inliers_ = 0;
 
@@ -85,31 +78,36 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		int row_idx_hessian = getPoseMatrixIndex(pose_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(land_iter->index());
 
-		HessianBlock<Matrix6f> H_pp;
-		H_pp.data = Jr.transpose() * Jr;
+		Matrix6f h_pp_data = Jr.transpose() * Jr;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		H_pp.blockIndices = hessian_indices;
+		Hessian<Matrix6f>* H_pp = new Hessian<Matrix6f>(hessian_indices,
+				h_pp_data);
+		_HessianContainer.insert(H_pp);
 
-		HessianBlock<Matrix6_3f> H_pl;
-		H_pl.data = Jr.transpose() * Jl;
+		Matrix6_3f h_pl_data = Jr.transpose() * Jl;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		H_pl.blockIndices = hessian_indices;
+		Hessian<Matrix6_3f>* H_pl = new Hessian<Matrix6_3f>(hessian_indices,
+				h_pl_data);
+		_HessianContainer.insert(H_pl);
 
-		HessianBlock<Matrix3_6f> H_lp;
-		H_lp.data = Jl.transpose() * Jr;
+		Matrix3_6f h_lp_data = Jl.transpose() * Jr;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		H_lp.blockIndices = hessian_indices;
+		Hessian<Matrix3_6f>* H_lp = new Hessian<Matrix3_6f>(hessian_indices,
+				h_lp_data);
+		_HessianContainer.insert(H_lp);
 
-		HessianBlock<Matrix3f> H_ll;
-		H_ll.data = Jl.transpose() * Jl;
+		Matrix3f h_ll_data = Jl.transpose() * Jl;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		H_ll.blockIndices = hessian_indices;
+		Hessian<Matrix3f>* H_ll = new Hessian<Matrix3f>(hessian_indices,
+				h_ll_data);
+		_HessianContainer.insert(H_ll);
 
 		//! TODO B?
+/*
 		RHSBlock<Vector6f> b_block_pose;
 		b_block_pose.data = Jr.transpose() * e;
 		b_block_pose.blockIndex = row_idx_hessian;
@@ -117,6 +115,7 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		RHSBlock<Vector3f> b_block_land;
 		b_block_land.data = Jl.transpose() * e;
 		b_block_land.blockIndex = col_idx_hessian;
+/**/
 	}
 
 	return true;
@@ -168,33 +167,37 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 		total_chi_ += chi;
 
 		//! TODO H?
+
 		int row_idx_hessian = getPoseMatrixIndex(pose_i_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(pose_j_iter->index());
 
-		HessianBlock<Matrix6f> H_block;
-
-		H_block.data = Ji.transpose() * Omega * Ji;
+		Matrix6f h_block_data = Ji.transpose() * Omega * Ji;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		H_block.blockIndices = hessian_indices;
+		Hessian<Matrix6f>* H_ii = new Hessian<Matrix6f>(hessian_indices,
+				h_block_data);
 
-		H_block.data = Ji.transpose() * Omega * Jj;
+		h_block_data = Ji.transpose() * Omega * Jj;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		H_block.blockIndices = hessian_indices;
+		Hessian<Matrix6f>* H_ij = new Hessian<Matrix6f>(hessian_indices,
+				h_block_data);
 
-		H_block.data = Jj.transpose() * Omega * Ji;
+		h_block_data = Jj.transpose() * Omega * Ji;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		H_block.blockIndices = hessian_indices;
+		Hessian<Matrix6f>* H_ji = new Hessian<Matrix6f>(hessian_indices,
+				h_block_data);
 
-		H_block.data = Jj.transpose() * Omega * Jj;
+		h_block_data = Jj.transpose() * Omega * Jj;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		H_block.blockIndices = hessian_indices;
+		Hessian<Matrix6f>* H_jj = new Hessian<Matrix6f>(hessian_indices,
+				h_block_data);
 
 
 		//! TODO B?
+/*
 		RHSBlock<Vector6f> b_block;
 
 		b_block.data = Ji.transpose() * Omega * e;
@@ -202,6 +205,7 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 
 		b_block.data = Jj.transpose() * Omega * e;
 		b_block.blockIndex = col_idx_hessian;
+/**/
 	}
 
 	return true;
@@ -273,17 +277,17 @@ void SparseSolver::oneStep(void){
 	float step_chi;
 	int step_inliers;
 
+	cout << _HessianContainer.size() << endl;
 	if(linearizeLandmark(step_chi,step_inliers))
 		cout << CYAN << "inliers land = " << step_inliers << "\t" << "chi land = " << step_chi << RESET << endl;
 	if(linearizeOdometry(step_chi,step_inliers))
 		cout << GREEN << "inliers odom = " << step_inliers << "\t" << "chi odom = " << step_chi << RESET << endl;
+	cout << _HessianContainer.size() << endl;
 
-	//	for(HessianContainer::iterator it = _H_container.begin(); it != _H_container.end(); ++it){
-	//		cout << it->second << endl;
-	//		cin.get();
-	//	}
-
-
+	//! TODO CLEAN-UP EVERYTHING (containers + hash_map and so on)
+	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
+		delete (*it); //!??
+	}
 	return; //placeholder
 }
 

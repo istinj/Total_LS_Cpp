@@ -16,6 +16,7 @@ include_directories(include
 set(SRCS 
 	src/tls_main.cpp
 	src/utilities.cpp
+	src/Hessian.cpp
 	src/SparseSolver.cpp
 	src/Graph.cpp)
 add_executable(tls_main_app ${SRCS})

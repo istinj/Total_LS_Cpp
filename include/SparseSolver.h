@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <vector>
-#include <boost/unordered_map.hpp>
+#include <set>
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/StdVector>
@@ -36,18 +36,6 @@ typedef std::vector<VertexSE3> RobotTrajectory;
 typedef std::vector<VertexXYZ> LandmarkPointsContainer;
 typedef std::vector<EdgeOdometry> OdometryMeasContainer;
 typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
-
-template<class _DataType>
-struct HessianBlock{
-	std::pair<int, int> blockIndices;
-	_DataType data;
-};
-
-template<class _DataType>
-struct RHSBlock{
-	int blockIndex;
-	_DataType data;
-};
 
 class SparseSolver {
 public:
@@ -89,9 +77,8 @@ private:
 	//! NB no matrixXf -> no cached operations
 	//! Hashmap (<index i, index j>, *_DataType)
 	//! hashmap di puntatori a data type
-//	std::vector<HessianBlock*> _HessianContainer;
-//	std::set<RHSBlock*> _RHSContainer;
 	std::set<GenericHessian*> _HessianContainer;
+	//! TODO Remember to clean-up everything in the destructor (or at the end of the iteration)
 	//! TODO Same for the RHSVector;
 
 	float _lambda = -1.0;

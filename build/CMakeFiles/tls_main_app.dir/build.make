@@ -98,9 +98,32 @@ CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.provides: CMakeFiles/tls_main_ap
 
 CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o
 
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o: ../src/Hessian.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.cpp
+
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tls_main_app.dir/src/Hessian.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.cpp > CMakeFiles/tls_main_app.dir/src/Hessian.cpp.i
+
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tls_main_app.dir/src/Hessian.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.cpp -o CMakeFiles/tls_main_app.dir/src/Hessian.cpp.s
+
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.requires:
+.PHONY : CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.requires
+
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.provides: CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.requires
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.provides.build
+.PHONY : CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.provides
+
+CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o
+
 CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o: ../src/SparseSolver.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.cpp
 
@@ -123,7 +146,7 @@ CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o.provides.build: CMakeFiles/tl
 
 CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: ../src/Graph.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Graph.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Graph.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp
 
@@ -148,6 +171,7 @@ CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides.build: CMakeFiles/tls_main_
 tls_main_app_OBJECTS = \
 "CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/utilities.cpp.o" \
+"CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/Graph.cpp.o"
 
@@ -156,6 +180,7 @@ tls_main_app_EXTERNAL_OBJECTS =
 
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o
+../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/build.make
@@ -169,6 +194,7 @@ CMakeFiles/tls_main_app.dir/build: ../bin/tls_main_app
 
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.requires
+CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires
 .PHONY : CMakeFiles/tls_main_app.dir/requires

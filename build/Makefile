@@ -138,6 +138,30 @@ src/Graph.cpp.s:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.s
 .PHONY : src/Graph.cpp.s
 
+src/Hessian.o: src/Hessian.cpp.o
+.PHONY : src/Hessian.o
+
+# target to build an object file
+src/Hessian.cpp.o:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Hessian.cpp.o
+.PHONY : src/Hessian.cpp.o
+
+src/Hessian.i: src/Hessian.cpp.i
+.PHONY : src/Hessian.i
+
+# target to preprocess a source file
+src/Hessian.cpp.i:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Hessian.cpp.i
+.PHONY : src/Hessian.cpp.i
+
+src/Hessian.s: src/Hessian.cpp.s
+.PHONY : src/Hessian.s
+
+# target to generate assembly for a file
+src/Hessian.cpp.s:
+	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Hessian.cpp.s
+.PHONY : src/Hessian.cpp.s
+
 src/SparseSolver.o: src/SparseSolver.cpp.o
 .PHONY : src/SparseSolver.o
 
@@ -222,6 +246,9 @@ help:
 	@echo "... src/Graph.o"
 	@echo "... src/Graph.i"
 	@echo "... src/Graph.s"
+	@echo "... src/Hessian.o"
+	@echo "... src/Hessian.i"
+	@echo "... src/Hessian.s"
 	@echo "... src/SparseSolver.o"
 	@echo "... src/SparseSolver.i"
 	@echo "... src/SparseSolver.s"
