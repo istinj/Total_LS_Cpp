@@ -85,36 +85,38 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		int row_idx_hessian = getPoseMatrixIndex(pose_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(land_iter->index());
 
-		h_pp = Jr.transpose() * Jr;
+		HessianBlock<Matrix6f> H_pp;
+		H_pp.data = Jr.transpose() * Jr;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		addHessianBlock(hessian_indices, h_pp);
+		H_pp.blockIndices = hessian_indices;
 
-		h_pl = Jr.transpose() * Jl;
+		HessianBlock<Matrix6_3f> H_pl;
+		H_pl.data = Jr.transpose() * Jl;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		addHessianBlock(hessian_indices, h_pl);
+		H_pl.blockIndices = hessian_indices;
 
-		h_lp = Jl.transpose() * Jr;
+		HessianBlock<Matrix3_6f> H_lp;
+		H_lp.data = Jl.transpose() * Jr;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		addHessianBlock(hessian_indices, h_lp);
+		H_lp.blockIndices = hessian_indices;
 
-		h_ll = Jl.transpose() * Jl;
+		HessianBlock<Matrix3f> H_ll;
+		H_ll.data = Jl.transpose() * Jl;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		addHessianBlock(hessian_indices, h_ll);
+		H_ll.blockIndices = hessian_indices;
 
 		//! TODO B?
-		b_pose = Jr.transpose() * e;
-		addRHSBlock(row_idx_hessian, b_pose);
+		RHSBlock<Vector6f> b_block_pose;
+		b_block_pose.data = Jr.transpose() * e;
+		b_block_pose.blockIndex = row_idx_hessian;
 
-		b_land = Jl.transpose() * e;
-		addRHSBlock(col_idx_hessian, b_land);
-
-		/**/
-
-		//! TODO B?
+		RHSBlock<Vector3f> b_block_land;
+		b_block_land.data = Jl.transpose() * e;
+		b_block_land.blockIndex = col_idx_hessian;
 	}
 
 	return true;
@@ -169,33 +171,37 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 		int row_idx_hessian = getPoseMatrixIndex(pose_i_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(pose_j_iter->index());
 
-		h_ii = Ji.transpose() * Omega * Ji;
+		HessianBlock<Matrix6f> H_block;
+
+		H_block.data = Ji.transpose() * Omega * Ji;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		addHessianBlock(hessian_indices, h_ii);
+		H_block.blockIndices = hessian_indices;
 
-		h_ij = Ji.transpose() * Omega * Jj;
+		H_block.data = Ji.transpose() * Omega * Jj;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		addHessianBlock(hessian_indices, h_ij);
+		H_block.blockIndices = hessian_indices;
 
-		h_ji = Jj.transpose() * Omega * Ji;
+		H_block.data = Jj.transpose() * Omega * Ji;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		addHessianBlock(hessian_indices, h_ji);
+		H_block.blockIndices = hessian_indices;
 
-		h_jj = Jj.transpose() * Omega * Jj;
+		H_block.data = Jj.transpose() * Omega * Jj;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		addHessianBlock(hessian_indices, h_jj);
+		H_block.blockIndices = hessian_indices;
 
 
 		//! TODO B?
-		b_i = Ji.transpose() * Omega * e;
-		addRHSBlock(row_idx_hessian, b_i);
+		RHSBlock<Vector6f> b_block;
 
-		b_j = Jj.transpose() * Omega * e;
-		addRHSBlock(col_idx_hessian, b_j);
+		b_block.data = Ji.transpose() * Omega * e;
+		b_block.blockIndex = row_idx_hessian;
+
+		b_block.data = Jj.transpose() * Omega * e;
+		b_block.blockIndex = col_idx_hessian;
 	}
 
 	return true;
@@ -296,28 +302,6 @@ int SparseSolver::getLandMatrixIndex(int curr_land_idx){
 		return -1;
 	}
 	return _robot_poses.size() * X_DIM + curr_land_idx * L_DIM;
-}
-
-template<typename _MatrixType>
-void SparseSolver::addHessianBlock(const std::pair<int, int>& hessian_indices_,
-		const _MatrixType& hessian_block_){
-	if(_H_container[hessian_indices_].isZero()){
-		_H_container[hessian_indices_].resize(hessian_block_.rows(), hessian_block_.cols());
-		_H_container[hessian_indices_] = hessian_block_;
-	} else {
-		_H_container[hessian_indices_].noalias() += hessian_block_;
-	}
-}
-
-template<typename _VectorType>
-void SparseSolver::addRHSBlock(const int rhs_index_,
-		const _VectorType& rhs_block_){
-	if(_b_container[rhs_index_].isZero()){
-		_b_container[rhs_index_].resize(rhs_block_.rows(), 1);
-		_b_container[rhs_index_] = rhs_block_;
-	} else {
-		_b_container[rhs_index_].noalias() += rhs_block_;
-	}
 }
 
 } /* namespace optimizer */

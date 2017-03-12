@@ -1,0 +1,138 @@
+/*
+ * Hessian.h
+ *
+ *  Created on: 12/mar/2017
+ *      Author: istin
+ */
+
+#ifndef HESSIAN_H_
+#define HESSIAN_H_
+
+#include <iostream>
+#include <vector>
+#include <Eigen/Core>
+#include "utilities.h"
+
+namespace optimizer {
+//! ----------------------------------------------- !//
+//! ----------- Base class for Hessian ------------ !//
+//! ----------------------------------------------- !//
+class GenericHessian{
+public:
+	GenericHessian();
+	virtual ~GenericHessian();
+
+	virtual bool operator==(const GenericHessian& other_);
+	virtual GenericHessian& operator=(const GenericHessian& other_);
+
+	virtual void set(const std::pair<int, int>& indices_);
+	virtual void print(void);
+protected:
+	std::pair<int, int> _indices;
+};
+
+GenericHessian::GenericHessian(){
+	_indices = std::make_pair(-1, -1);
+}
+
+GenericHessian::~GenericHessian(){
+	//! placeholder
+}
+
+GenericHessian& GenericHessian::operator=(const GenericHessian& other_){
+	_indices = other_._indices;
+	return *this;
+}
+
+bool GenericHessian::operator==(const GenericHessian& other_){
+	if(_indices == other_._indices)
+		return true;
+	else
+		return false;
+}
+
+void GenericHessian::set(const std::pair<int, int>& indices_){
+	_indices = indices_;
+}
+
+void GenericHessian::print(void){
+	std::cout << "Hessian block with indices: " << _indices.first <<
+			"\t" << _indices.second << std::endl;
+}
+
+
+//! ----------------------------------------------- !//
+//! --------- Derived class for Hessian ----------- !//
+//! ----------------------------------------------- !//
+template<class _DataType>
+class Hessian : public GenericHessian{
+public:
+	Hessian();
+	Hessian(const std::pair<int, int>& indices_,
+			const _DataType& data_);
+	virtual ~Hessian();
+
+	virtual bool operator==(const Hessian<_DataType>& other_);
+	virtual Hessian<_DataType>& operator=(const Hessian<_DataType>& other_);
+
+	inline const std::pair<int, int>& getIndices(void) const {return _indices;};
+	inline const _DataType& getData(void) const {return _data;};
+
+	virtual void set(const std::pair<int, int>& indices_,
+			const _DataType& data_);
+	virtual void print(void);
+protected:
+	_DataType _data;
+};
+
+template<class _DataType>
+Hessian<_DataType>::Hessian(){
+	_indices = std::make_pair(-1,-1);
+}
+
+template<class _DataType>
+Hessian<_DataType>::~Hessian(){
+	//! placeholder
+}
+
+template<class _DataType>
+Hessian<_DataType>::Hessian(const std::pair<int, int>& indices_,
+		const _DataType& data_){
+	_indices = indices_;
+	_data = data_;
+}
+
+template<class _DataType>
+bool Hessian<_DataType>::operator==(const Hessian& other_){
+	if(_indices == other_._indices &&
+			_data == other_._data)
+		return true;
+	else
+		return false;
+}
+
+template<class _DataType>
+Hessian<_DataType>& Hessian<_DataType>::operator=(const Hessian<_DataType>& other_){
+	_indices = other_._indices;
+	_data = other_._data;
+	return *this;
+}
+
+
+template<class _DataType>
+void Hessian<_DataType>::set(const std::pair<int, int>& indices_,
+		const _DataType& data_){
+	_indices = indices_;
+	_data = data_;
+}
+
+template<class _DataType>
+void Hessian<_DataType>::print(void){
+	std::cout << "Hessian block with indices: " << _indices.first <<
+			"\t" << _indices.second << std::endl;
+	std::cout << _data << "\n\n";
+}
+
+} /* namespace optimizer */
+
+#endif /* HESSIAN_H_ */

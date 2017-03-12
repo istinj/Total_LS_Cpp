@@ -34,6 +34,16 @@ Vertex.hpp
 Edge.hpp
 ../include/Edge.hpp
 
+../include/Hessian.hpp
+iostream
+-
+vector
+-
+Eigen/Core
+-
+utilities.h
+../include/utilities.h
+
 ../include/SparseSolver.h
 iostream
 -
@@ -66,6 +76,14 @@ Eigen/Core
 Eigen/Geometry
 -
 
+../include/World.h
+fstream
+-
+Eigen/Core
+-
+utilities.h
+../include/utilities.h
+
 ../include/utilities.h
 iostream
 -
@@ -76,9 +94,25 @@ Eigen/Geometry
 boost/random.hpp
 -
 
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.cpp
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/tls_main.cpp
+stdio.h
+-
+iostream
+-
+set
+-
+Eigen/Core
+-
+World.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.h
+Graph.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.h
 SparseSolver.h
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.h
+Vertex.hpp
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Vertex.hpp
+Hessian.hpp
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.hpp
 
 /usr/include/eigen3/Eigen/Cholesky
 Core

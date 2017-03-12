@@ -98,32 +98,9 @@ CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.provides: CMakeFiles/tls_main_ap
 
 CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o
 
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o: ../src/SparseOptimizer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseOptimizer.cpp
-
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseOptimizer.cpp > CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.i
-
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseOptimizer.cpp -o CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.s
-
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.requires:
-.PHONY : CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.requires
-
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.provides: CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.requires
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.provides.build
-.PHONY : CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.provides
-
-CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o
-
 CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o: ../src/SparseSolver.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.cpp
 
@@ -146,7 +123,7 @@ CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o.provides.build: CMakeFiles/tl
 
 CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
 CMakeFiles/tls_main_app.dir/src/Graph.cpp.o: ../src/Graph.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Graph.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Graph.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp
 
@@ -167,72 +144,20 @@ CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides: CMakeFiles/tls_main_app.di
 
 CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
 
-CMakeFiles/tls_main_app.dir/src/World.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
-CMakeFiles/tls_main_app.dir/src/World.cpp.o: ../src/World.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_6)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/World.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/World.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp
-
-CMakeFiles/tls_main_app.dir/src/World.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tls_main_app.dir/src/World.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp > CMakeFiles/tls_main_app.dir/src/World.cpp.i
-
-CMakeFiles/tls_main_app.dir/src/World.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tls_main_app.dir/src/World.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/World.cpp -o CMakeFiles/tls_main_app.dir/src/World.cpp.s
-
-CMakeFiles/tls_main_app.dir/src/World.cpp.o.requires:
-.PHONY : CMakeFiles/tls_main_app.dir/src/World.cpp.o.requires
-
-CMakeFiles/tls_main_app.dir/src/World.cpp.o.provides: CMakeFiles/tls_main_app.dir/src/World.cpp.o.requires
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/World.cpp.o.provides.build
-.PHONY : CMakeFiles/tls_main_app.dir/src/World.cpp.o.provides
-
-CMakeFiles/tls_main_app.dir/src/World.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/World.cpp.o
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.o: CMakeFiles/tls_main_app.dir/flags.make
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.o: ../src/Solver.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/istin/Documenti/4_TESI/Total_LS_Cpp/build/CMakeFiles $(CMAKE_PROGRESS_7)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tls_main_app.dir/src/Solver.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tls_main_app.dir/src/Solver.cpp.o -c /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.cpp
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tls_main_app.dir/src/Solver.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.cpp > CMakeFiles/tls_main_app.dir/src/Solver.cpp.i
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tls_main_app.dir/src/Solver.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Solver.cpp -o CMakeFiles/tls_main_app.dir/src/Solver.cpp.s
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.requires:
-.PHONY : CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.requires
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.provides: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.requires
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.provides.build
-.PHONY : CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.provides
-
-CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.provides.build: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o
-
 # Object files for target tls_main_app
 tls_main_app_OBJECTS = \
 "CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/utilities.cpp.o" \
-"CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o" \
 "CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o" \
-"CMakeFiles/tls_main_app.dir/src/Graph.cpp.o" \
-"CMakeFiles/tls_main_app.dir/src/World.cpp.o" \
-"CMakeFiles/tls_main_app.dir/src/Solver.cpp.o"
+"CMakeFiles/tls_main_app.dir/src/Graph.cpp.o"
 
 # External object files for target tls_main_app
 tls_main_app_EXTERNAL_OBJECTS =
 
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o
-../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o
-../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/World.cpp.o
-../bin/tls_main_app: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/build.make
 ../bin/tls_main_app: CMakeFiles/tls_main_app.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable ../bin/tls_main_app"
@@ -244,11 +169,8 @@ CMakeFiles/tls_main_app.dir/build: ../bin/tls_main_app
 
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/tls_main.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/utilities.cpp.o.requires
-CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.o.requires
 CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Graph.cpp.o.requires
-CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/World.cpp.o.requires
-CMakeFiles/tls_main_app.dir/requires: CMakeFiles/tls_main_app.dir/src/Solver.cpp.o.requires
 .PHONY : CMakeFiles/tls_main_app.dir/requires
 
 CMakeFiles/tls_main_app.dir/clean:

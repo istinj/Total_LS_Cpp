@@ -20,9 +20,9 @@
 
 #include "utilities.h"
 #include "Graph.h"
+#include "Hessian.hpp"
 
 namespace optimizer {
-
 typedef Eigen::Matrix<float, 6, 6> Matrix6f;
 typedef Eigen::Matrix<float, 3, 6> Matrix3_6f;
 typedef Eigen::Matrix<float, 6, 3> Matrix6_3f;
@@ -37,20 +37,16 @@ typedef std::vector<VertexXYZ> LandmarkPointsContainer;
 typedef std::vector<EdgeOdometry> OdometryMeasContainer;
 typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
 
-//! TODO no matrixXf -> no cached operations
-//! Hashmap (<index i, index j>, *_DataType)
-typedef std::map<std::pair<int, int>, Eigen::MatrixXf> HessianContainer;
-typedef std::map<int, Eigen::MatrixXf> RHSContainer;
-
-struct HessianBlock {
-	int i_idx;
-	int j_idx;
-	Eigen::MatrixXf data;
+template<class _DataType>
+struct HessianBlock{
+	std::pair<int, int> blockIndices;
+	_DataType data;
 };
 
-struct RHSBlock {
-	int idx;
-	Eigen::VectorXf data;
+template<class _DataType>
+struct RHSBlock{
+	int blockIndex;
+	_DataType data;
 };
 
 class SparseSolver {
@@ -84,25 +80,19 @@ private:
 	int getPoseMatrixIndex(int curr_pose_idx);
 	int getLandMatrixIndex(int curr_land_idx);
 
-	template<typename _MatrixType>
-	void addHessianBlock(const std::pair<int, int>& hessian_indices_,
-			const _MatrixType& hessian_block_);
-
-	template<typename _VectorType>
-	void addRHSBlock(const int rhs_index_,
-			const _VectorType& rhs_block_);
-
 	RobotTrajectory _robot_poses;
 	LandmarkPointsContainer _land_points;
 
 	OdometryMeasContainer _Zr;
 	LandmarkMeasContainer _Zl;
 
-	//hashmap di puntatori a data type
-	HessianContainer _H_container;
-	RHSContainer _b_container;
-	std::vector<HessianBlock> _H;
-	std::vector<RHSBlock> _b;
+	//! NB no matrixXf -> no cached operations
+	//! Hashmap (<index i, index j>, *_DataType)
+	//! hashmap di puntatori a data type
+//	std::vector<HessianBlock*> _HessianContainer;
+//	std::set<RHSBlock*> _RHSContainer;
+	std::set<GenericHessian*> _HessianContainer;
+	//! TODO Same for the RHSVector;
 
 	float _lambda = -1.0;
 	float _threshold = -1.0;

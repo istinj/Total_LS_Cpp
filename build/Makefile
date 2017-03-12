@@ -138,54 +138,6 @@ src/Graph.cpp.s:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Graph.cpp.s
 .PHONY : src/Graph.cpp.s
 
-src/Solver.o: src/Solver.cpp.o
-.PHONY : src/Solver.o
-
-# target to build an object file
-src/Solver.cpp.o:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.o
-.PHONY : src/Solver.cpp.o
-
-src/Solver.i: src/Solver.cpp.i
-.PHONY : src/Solver.i
-
-# target to preprocess a source file
-src/Solver.cpp.i:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.i
-.PHONY : src/Solver.cpp.i
-
-src/Solver.s: src/Solver.cpp.s
-.PHONY : src/Solver.s
-
-# target to generate assembly for a file
-src/Solver.cpp.s:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/Solver.cpp.s
-.PHONY : src/Solver.cpp.s
-
-src/SparseOptimizer.o: src/SparseOptimizer.cpp.o
-.PHONY : src/SparseOptimizer.o
-
-# target to build an object file
-src/SparseOptimizer.cpp.o:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.o
-.PHONY : src/SparseOptimizer.cpp.o
-
-src/SparseOptimizer.i: src/SparseOptimizer.cpp.i
-.PHONY : src/SparseOptimizer.i
-
-# target to preprocess a source file
-src/SparseOptimizer.cpp.i:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.i
-.PHONY : src/SparseOptimizer.cpp.i
-
-src/SparseOptimizer.s: src/SparseOptimizer.cpp.s
-.PHONY : src/SparseOptimizer.s
-
-# target to generate assembly for a file
-src/SparseOptimizer.cpp.s:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseOptimizer.cpp.s
-.PHONY : src/SparseOptimizer.cpp.s
-
 src/SparseSolver.o: src/SparseSolver.cpp.o
 .PHONY : src/SparseSolver.o
 
@@ -209,30 +161,6 @@ src/SparseSolver.s: src/SparseSolver.cpp.s
 src/SparseSolver.cpp.s:
 	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/SparseSolver.cpp.s
 .PHONY : src/SparseSolver.cpp.s
-
-src/World.o: src/World.cpp.o
-.PHONY : src/World.o
-
-# target to build an object file
-src/World.cpp.o:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/World.cpp.o
-.PHONY : src/World.cpp.o
-
-src/World.i: src/World.cpp.i
-.PHONY : src/World.i
-
-# target to preprocess a source file
-src/World.cpp.i:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/World.cpp.i
-.PHONY : src/World.cpp.i
-
-src/World.s: src/World.cpp.s
-.PHONY : src/World.s
-
-# target to generate assembly for a file
-src/World.cpp.s:
-	$(MAKE) -f CMakeFiles/tls_main_app.dir/build.make CMakeFiles/tls_main_app.dir/src/World.cpp.s
-.PHONY : src/World.cpp.s
 
 src/tls_main.o: src/tls_main.cpp.o
 .PHONY : src/tls_main.o
@@ -294,18 +222,9 @@ help:
 	@echo "... src/Graph.o"
 	@echo "... src/Graph.i"
 	@echo "... src/Graph.s"
-	@echo "... src/Solver.o"
-	@echo "... src/Solver.i"
-	@echo "... src/Solver.s"
-	@echo "... src/SparseOptimizer.o"
-	@echo "... src/SparseOptimizer.i"
-	@echo "... src/SparseOptimizer.s"
 	@echo "... src/SparseSolver.o"
 	@echo "... src/SparseSolver.i"
 	@echo "... src/SparseSolver.s"
-	@echo "... src/World.o"
-	@echo "... src/World.i"
-	@echo "... src/World.s"
 	@echo "... src/tls_main.o"
 	@echo "... src/tls_main.i"
 	@echo "... src/tls_main.s"
