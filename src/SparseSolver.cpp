@@ -80,6 +80,7 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		}
 		total_chi_ += chi;
 
+
 		//! TODO H?
 		int row_idx_hessian = getPoseMatrixIndex(pose_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(land_iter->index());
@@ -87,60 +88,29 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		h_pp = Jr.transpose() * Jr;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_pp.rows(), h_pp.cols());
-			_H_container[hessian_indices] = h_pp;
-		} else {
-			_H_container[hessian_indices].noalias() += h_pp;
-		}
+		addHessianBlock(hessian_indices, h_pp);
 
 		h_pl = Jr.transpose() * Jl;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_pl.rows(), h_pl.cols());
-			_H_container[hessian_indices] = h_pl;
-		} else {
-			_H_container[hessian_indices].noalias() += h_pl;
-		}
+		addHessianBlock(hessian_indices, h_pl);
 
 		h_lp = Jl.transpose() * Jr;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_lp.rows(), h_lp.cols());
-			_H_container[hessian_indices] = h_lp;
-		} else {
-			_H_container[hessian_indices].noalias() += h_lp;
-		}
+		addHessianBlock(hessian_indices, h_lp);
 
 		h_ll = Jl.transpose() * Jl;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_ll.rows(), h_ll.cols());
-			_H_container[hessian_indices] = h_ll;
-		} else {
-			_H_container[hessian_indices].noalias() += h_ll;
-		}
+		addHessianBlock(hessian_indices, h_ll);
 
 		//! TODO B?
 		b_pose = Jr.transpose() * e;
-		if(_b_container[row_idx_hessian].isZero()){
-			_b_container[row_idx_hessian].resize(b_pose.rows());
-			_b_container[row_idx_hessian] = b_pose;
-		} else {
-			_b_container[row_idx_hessian].noalias() += b_pose;
-		}
+		addRHSBlock(row_idx_hessian, b_pose);
 
 		b_land = Jl.transpose() * e;
-		if(_b_container[col_idx_hessian].isZero()){
-			_b_container[col_idx_hessian].resize(b_land.rows());
-			_b_container[col_idx_hessian] = b_land;
-		} else {
-			_b_container[col_idx_hessian].noalias() += b_land;
-		}
-
+		addRHSBlock(col_idx_hessian, b_land);
 
 		/**/
 
@@ -157,8 +127,6 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 	Matrix12_6f Ji = Matrix12_6f::Zero();
 	Matrix12_6f Jj = Matrix12_6f::Zero();
 	Vector12f e = Vector12f::Zero();
-//	HessianBlock h_ii, h_ij, h_ji, h_jj;
-//	RHSBlock b_i, b_j;
 
 	Matrix<float, 6, 6> h_ii, h_ij, h_ji, h_jj;
 	Matrix<float, 6, 1> b_i, b_j;
@@ -204,99 +172,30 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 		h_ii = Ji.transpose() * Omega * Ji;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_ii.rows(), h_ii.cols());
-			_H_container[hessian_indices] = h_ii;
-		} else {
-			_H_container[hessian_indices].noalias() += h_ii;
-		}
+		addHessianBlock(hessian_indices, h_ii);
 
 		h_ij = Ji.transpose() * Omega * Jj;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_ij.rows(), h_ij.cols());
-			_H_container[hessian_indices] = h_ij;
-		} else {
-			_H_container[hessian_indices].noalias() += h_ij;
-		}
+		addHessianBlock(hessian_indices, h_ij);
 
 		h_ji = Jj.transpose() * Omega * Ji;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_ji.rows(), h_ji.cols());
-			_H_container[hessian_indices] = h_ji;
-		} else {
-			_H_container[hessian_indices].noalias() += h_ji;
-		}
+		addHessianBlock(hessian_indices, h_ji);
 
 		h_jj = Jj.transpose() * Omega * Jj;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
-		if(_H_container[hessian_indices].isZero()){
-			_H_container[hessian_indices].resize(h_jj.rows(), h_jj.cols());
-			_H_container[hessian_indices] = h_jj;
-		} else {
-			_H_container[hessian_indices].noalias() += h_jj;
-		}
+		addHessianBlock(hessian_indices, h_jj);
+
 
 		//! TODO B?
 		b_i = Ji.transpose() * Omega * e;
-		if(_b_container[row_idx_hessian].isZero()){
-			_b_container[row_idx_hessian].resize(b_i.rows());
-			_b_container[row_idx_hessian] = b_i;
-		} else {
-			_b_container[row_idx_hessian].noalias() += b_i;
-		}
+		addRHSBlock(row_idx_hessian, b_i);
 
 		b_j = Jj.transpose() * Omega * e;
-		if(_b_container[col_idx_hessian].isZero()){
-			_b_container[col_idx_hessian].resize(b_j.rows());
-			_b_container[col_idx_hessian] = b_j;
-		} else {
-			_b_container[col_idx_hessian].noalias() += b_j;
-		}
-
-
-//		int row_idx_hessian = getPoseMatrixIndex(pose_i_iter->index());
-//		int col_idx_hessian = getPoseMatrixIndex(pose_j_iter->index());
-//		h_ii.data.resize(6,6);
-//		h_ii.data = Ji.transpose() * Omega * Ji;
-//		h_ii.i_idx = row_idx_hessian;
-//		h_ii.j_idx = row_idx_hessian;
-//
-//		h_ij.data.resize(6,6);
-//		h_ij.data = Ji.transpose() * Omega * Jj;
-//		h_ij.i_idx = row_idx_hessian;
-//		h_ij.j_idx = col_idx_hessian;
-//
-//		h_ji.data.resize(6,6);
-//		h_ji.data = Jj.transpose() * Omega * Ji;
-//		h_ji.i_idx = col_idx_hessian;
-//		h_ji.j_idx = row_idx_hessian;
-//
-//		h_jj.data.resize(6,6);
-//		h_jj.data = Jj.transpose() * Omega * Jj;
-//		h_jj.i_idx = col_idx_hessian;
-//		h_jj.j_idx = col_idx_hessian;
-//
-//		_H.push_back(h_ii);
-//		_H.push_back(h_ij);
-//		_H.push_back(h_ji);
-//		_H.push_back(h_jj);
-
-		//! TODO B?
-//		b_i.data.resize(6,1);
-//		b_i.data = Ji.transpose() * Omega * e;
-//		b_i.idx = row_idx_hessian;
-//
-//		b_j.data.resize(6,1);
-//		b_j.data = Ji.transpose() * Omega * e;
-//		b_j.idx = col_idx_hessian;
-//
-//		_b.push_back(b_i);
-//		_b.push_back(b_j);
+		addRHSBlock(col_idx_hessian, b_j);
 	}
 
 	return true;
@@ -373,46 +272,15 @@ void SparseSolver::oneStep(void){
 	if(linearizeOdometry(step_chi,step_inliers))
 		cout << GREEN << "inliers odom = " << step_inliers << "\t" << "chi odom = " << step_chi << RESET << endl;
 
-//	for(HessianContainer::iterator it = _H_container.begin(); it != _H_container.end(); ++it){
-//		cout << it->second << endl;
-//		cin.get();
-//	}
+	//	for(HessianContainer::iterator it = _H_container.begin(); it != _H_container.end(); ++it){
+	//		cout << it->second << endl;
+	//		cin.get();
+	//	}
 
 
 	return; //placeholder
 }
 
-/* Old stuff
-int SparseSolver::findPoseIndex(const int poseID_){
-	if(poseID_ < 0){
-		cerr << "Bad ID" << endl;
-		return -1;
-	}
-	int idx = -1;
-	for (int i = 0; i < _robot_poses.size(); ++i) {
-		if(_robot_poses[i].id() == poseID_){
-			idx = i;
-			break;
-		}
-	}
-	return idx;
-}
-
-int SparseSolver::findLandmarkIndex(const int landID_){
-	if(landID_ < 0){
-		cerr << "Bad ID" << endl;
-		return -1;
-	}
-	int idx = -1;
-	for (int i = 0; i < _land_points.size(); ++i) {
-		if(_land_points[i].id() == landID_){
-			idx = i;
-			break;
-		}
-	}
-	return idx;
-}
-/**/
 
 int SparseSolver::getPoseMatrixIndex(int curr_pose_idx){
 	if(curr_pose_idx > _robot_poses.size() - 1){
@@ -424,10 +292,32 @@ int SparseSolver::getPoseMatrixIndex(int curr_pose_idx){
 
 int SparseSolver::getLandMatrixIndex(int curr_land_idx){
 	if(curr_land_idx > _land_points.size() - 1){
-			cerr << "Exceeding index\nExit" << endl;
-			return -1;
+		cerr << "Exceeding index\nExit" << endl;
+		return -1;
 	}
 	return _robot_poses.size() * X_DIM + curr_land_idx * L_DIM;
+}
+
+template<typename _MatrixType>
+void SparseSolver::addHessianBlock(const std::pair<int, int>& hessian_indices_,
+		const _MatrixType& hessian_block_){
+	if(_H_container[hessian_indices_].isZero()){
+		_H_container[hessian_indices_].resize(hessian_block_.rows(), hessian_block_.cols());
+		_H_container[hessian_indices_] = hessian_block_;
+	} else {
+		_H_container[hessian_indices_].noalias() += hessian_block_;
+	}
+}
+
+template<typename _VectorType>
+void SparseSolver::addRHSBlock(const int rhs_index_,
+		const _VectorType& rhs_block_){
+	if(_b_container[rhs_index_].isZero()){
+		_b_container[rhs_index_].resize(rhs_block_.rows(), 1);
+		_b_container[rhs_index_] = rhs_block_;
+	} else {
+		_b_container[rhs_index_].noalias() += rhs_block_;
+	}
 }
 
 } /* namespace optimizer */

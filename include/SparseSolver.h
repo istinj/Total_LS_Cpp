@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <vector>
+#include <boost/unordered_map.hpp>
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/StdVector>
@@ -36,8 +37,10 @@ typedef std::vector<VertexXYZ> LandmarkPointsContainer;
 typedef std::vector<EdgeOdometry> OdometryMeasContainer;
 typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
 
+//! TODO no matrixXf -> no cached operations
+//! Hashmap (<index i, index j>, *_DataType)
 typedef std::map<std::pair<int, int>, Eigen::MatrixXf> HessianContainer;
-typedef std::map<int, Eigen::VectorXf> RHSContainer;
+typedef std::map<int, Eigen::MatrixXf> RHSContainer;
 
 struct HessianBlock {
 	int i_idx;
@@ -78,12 +81,16 @@ private:
 			Matrix12_6f& Ji,
 			Matrix12_6f& Jj);
 
-	/* Old Stuff
-	int findLandmarkIndex(const int landID_);
-	int findPoseIndex(const int poseID_);
-	/**/
 	int getPoseMatrixIndex(int curr_pose_idx);
 	int getLandMatrixIndex(int curr_land_idx);
+
+	template<typename _MatrixType>
+	void addHessianBlock(const std::pair<int, int>& hessian_indices_,
+			const _MatrixType& hessian_block_);
+
+	template<typename _VectorType>
+	void addRHSBlock(const int rhs_index_,
+			const _VectorType& rhs_block_);
 
 	RobotTrajectory _robot_poses;
 	LandmarkPointsContainer _land_points;
@@ -91,6 +98,7 @@ private:
 	OdometryMeasContainer _Zr;
 	LandmarkMeasContainer _Zl;
 
+	//hashmap di puntatori a data type
 	HessianContainer _H_container;
 	RHSContainer _b_container;
 	std::vector<HessianBlock> _H;
