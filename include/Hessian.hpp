@@ -22,7 +22,10 @@ public:
 	virtual ~GenericHessian();
 
 	virtual bool operator==(const GenericHessian& other_);
+	virtual bool operator<(const GenericHessian& other_);
 	virtual GenericHessian& operator=(const GenericHessian& other_);
+
+	inline const std::pair<int, int>& getIndices(void) const {return _indices;};
 
 	virtual void set(const std::pair<int, int>& indices_);
 	virtual void print(void);

@@ -23,6 +23,17 @@ GenericHessian& GenericHessian::operator=(const GenericHessian& other_){
 	return *this;
 }
 
+bool GenericHessian::operator<(const GenericHessian& other_){
+	if(_indices.first < other_._indices.first){
+		return true;
+	} else {
+		if(_indices.first == other_._indices.first)
+			return _indices.second < other_._indices.second;
+		else
+			return false;
+	}
+}
+
 bool GenericHessian::operator==(const GenericHessian& other_){
 	if(_indices == other_._indices)
 		return true;

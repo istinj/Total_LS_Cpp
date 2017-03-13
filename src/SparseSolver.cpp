@@ -286,7 +286,9 @@ void SparseSolver::oneStep(void){
 
 	//! TODO CLEAN-UP EVERYTHING (containers + hash_map and so on)
 	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
-		delete (*it); //!??
+		(*it)->print();
+		cin.get();
+//		delete (*it);
 	}
 	return; //placeholder
 }

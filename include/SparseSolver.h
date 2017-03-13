@@ -37,6 +37,19 @@ typedef std::vector<VertexXYZ> LandmarkPointsContainer;
 typedef std::vector<EdgeOdometry> OdometryMeasContainer;
 typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
 
+struct setCompare{
+	bool operator()(const GenericHessian* a_, const GenericHessian* b_) const {
+		if(a_->getIndices().first < b_->getIndices().first){
+			return true;
+		} else {
+			if(a_->getIndices().first == b_->getIndices().first)
+				return a_->getIndices().second < b_->getIndices().second;
+			else
+				return false;
+		}
+	}
+};
+
 class SparseSolver {
 public:
 	SparseSolver();
@@ -77,7 +90,7 @@ private:
 	//! NB no matrixXf -> no cached operations
 	//! Hashmap (<index i, index j>, *_DataType)
 	//! hashmap di puntatori a data type
-	std::set<GenericHessian*> _HessianContainer;
+	std::set<GenericHessian*, setCompare> _HessianContainer;
 	//! TODO Remember to clean-up everything in the destructor (or at the end of the iteration)
 	//! TODO Same for the RHSVector;
 
