@@ -9,6 +9,7 @@
 #define SPARSESOLVER_H_
 
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 #include <set>
 #include <Eigen/Core>
@@ -34,7 +35,7 @@ typedef Eigen::Matrix<float, 12, 1> Vector12f;
 
 typedef std::vector<VertexSE3> RobotTrajectory;
 typedef std::vector<VertexXYZ> LandmarkPointsContainer;
-typedef std::vector<EdgeOdometry> OdometryMeasContainer;
+typedef std::vector<EdgePosePose> OdometryMeasContainer;
 typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
 
 struct setCompare{
@@ -50,6 +51,7 @@ struct setCompare{
 	}
 };
 
+
 class SparseSolver {
 public:
 	SparseSolver();
@@ -63,20 +65,22 @@ public:
 	void oneStep(void);
 
 private:
-	bool linearizeLandmark(float& total_chi_, int& inliers_);
-	bool linearizeOdometry(float& total_chi_, int& inliers_);
-	void errorAndJacobianLandmark(const RobotPose& xr,
+	bool linearizePosePoint(float& total_chi_, int& inliers_);
+	bool linearizePosePose(float& total_chi_, int& inliers_);
+	void errorAndJacobianPosePoint(const RobotPose& xr,
 			const LandmarkXYZ& xl,
-			const LandmarkMeas& zl,
+			const PointMeas& zl,
 			Eigen::Vector3f& error,
 			Eigen::Matrix3f& Jl,
 			Matrix3_6f& Jr);
-	void errorAndJacobianOdometry(const RobotPose& xi,
+	void errorAndJacobianPosePose(const RobotPose& xi,
 			const RobotPose& xj,
-			const OdometryMeas& zr,
+			const PoseMeas& zr,
 			Vector12f& error,
 			Matrix12_6f& Ji,
 			Matrix12_6f& Jj);
+
+	bool CHDecomp(void);
 
 	int getPoseMatrixIndex(int curr_pose_idx);
 	int getLandMatrixIndex(int curr_land_idx);
@@ -91,6 +95,7 @@ private:
 	//! Hashmap (<index i, index j>, *_DataType)
 	//! hashmap di puntatori a data type
 	std::set<GenericHessian*, setCompare> _HessianContainer;
+
 	//! TODO Remember to clean-up everything in the destructor (or at the end of the iteration)
 	//! TODO Same for the RHSVector;
 

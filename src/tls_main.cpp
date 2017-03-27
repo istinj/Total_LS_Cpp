@@ -43,5 +43,6 @@ int main(int argc, char const *argv[])
 
 	delete solver;
 	delete graph;
+/**/
 	return 0;
 }

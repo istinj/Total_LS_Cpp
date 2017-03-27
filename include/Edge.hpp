@@ -14,10 +14,10 @@
 
 namespace optimizer {
 
-typedef Eigen::Vector3f LandmarkMeas;
-typedef Eigen::Matrix3f OmegaLandmark;
-typedef Eigen::Isometry3f OdometryMeas;
-typedef Eigen::Matrix<float, 6, 6> OmegaOdom;
+typedef Eigen::Vector3f PointMeas;
+typedef Eigen::Matrix3f OmegaPoint;
+typedef Eigen::Isometry3f PoseMeas;
+typedef Eigen::Matrix<float, 6, 6> OmegaPose;
 
 template <class _DataType, class _InfoMatrixType>
 class Edge {

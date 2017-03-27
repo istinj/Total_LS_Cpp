@@ -47,6 +47,8 @@ utilities.h
 ../include/SparseSolver.h
 iostream
 -
+unordered_map
+-
 vector
 -
 set
@@ -81,16 +83,22 @@ Eigen/Geometry
 ../include/utilities.h
 iostream
 -
+iostream
+-
+string
+-
+sstream
+-
+fstream
+-
 Eigen/Core
 -
 Eigen/Geometry
 -
-boost/random.hpp
--
 
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.cpp
-Hessian.hpp
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.hpp
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.cpp
+Graph.h
+/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.h
 
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.cpp
 SparseSolver.h

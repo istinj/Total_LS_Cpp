@@ -49,7 +49,7 @@ void Graph::addEdgePosePoint(const EdgePosePoint& edge_){
 	_edges_land.push_back(edge_);
 }
 
-void Graph::addEdgeOdom(const EdgeOdometry& edge_){
+void Graph::addEdgeOdom(const EdgePosePose& edge_){
 	_edges_odom.push_back(edge_);
 }
 
@@ -110,10 +110,10 @@ void Graph::loadFromFile(const string& filename){
 			ss >> IDs.first >> IDs.second;
 			ss >> sens_id;
 
-			LandmarkMeas z_land;
+			PointMeas z_land;
 			ss >> z_land.x() >> z_land.y() >> z_land.z();
 
-			OmegaLandmark omega_land;
+			OmegaPoint omega_land;
 			ss >> omega_land.row(0)(0) >> omega_land.row(0)(1) >> omega_land.row(0)(2) >>
 					omega_land.row(1)(1) >> omega_land.row(1)(2) >>
 					omega_land.row(2)(2);
@@ -138,11 +138,11 @@ void Graph::loadFromFile(const string& filename){
 
 			Matrix3f rot = q.toRotationMatrix();
 
-			OdometryMeas odom_meas;
+			PoseMeas odom_meas;
 			odom_meas.linear() = rot;
 			odom_meas.translation() = t;
 
-			OmegaOdom omega_odom;
+			OmegaPose omega_odom;
 			ss >> 	omega_odom.row(0)(0) >> omega_odom.row(0)(1) >> omega_odom.row(0)(2) >> omega_odom.row(0)(3) >> omega_odom.row(0)(4) >> omega_odom.row(0)(5) >>
 					omega_odom.row(1)(1) >> omega_odom.row(1)(2) >> omega_odom.row(1)(3) >> omega_odom.row(1)(4) >> omega_odom.row(1)(5) >>
 					omega_odom.row(2)(2) >> omega_odom.row(2)(3) >> omega_odom.row(2)(4) >> omega_odom.row(2)(5) >>
@@ -152,7 +152,7 @@ void Graph::loadFromFile(const string& filename){
 			for(int i = 0; i < omega_odom.rows(); ++i)
 				for(int j = i + 1; j < omega_odom.cols(); ++j)
 					omega_odom(j,i) = omega_odom(i,j);
-			EdgeOdometry edge_odom;
+			EdgePosePose edge_odom;
 			edge_odom.setEdge(IDs, odom_meas, omega_odom);
 			addEdgeOdom(edge_odom);
 		}

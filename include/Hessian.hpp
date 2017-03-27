@@ -43,6 +43,9 @@ public:
 	Hessian();
 	Hessian(const std::pair<int, int>& indices_,
 			const _DataType& data_);
+	Hessian(const std::pair<int, int>& indices_,
+			const _DataType& data_,
+			const std::pair<int, int>& size_);
 	virtual ~Hessian();
 
 	virtual bool operator==(const Hessian<_DataType>& other_);
@@ -50,12 +53,16 @@ public:
 
 	inline const std::pair<int, int>& getIndices(void) const {return _indices;};
 	inline const _DataType& getData(void) const {return _data;};
+	inline const int getRows(void) const {return _rows;};
+	inline const int getCols(void) const {return _cols;};
 
 	virtual void set(const std::pair<int, int>& indices_,
 			const _DataType& data_);
 	virtual void print(void);
 protected:
 	_DataType _data;
+	int _rows = -1;
+	int _cols = -1;
 };
 
 //! ----------------------------------------------- !//
@@ -76,6 +83,16 @@ Hessian<_DataType>::Hessian(const std::pair<int, int>& indices_,
 		const _DataType& data_){
 	_indices = indices_;
 	_data = data_;
+}
+
+template<class _DataType>
+Hessian<_DataType>::Hessian(const std::pair<int, int>& indices_,
+		const _DataType& data_,
+		const std::pair<int, int>& size_){
+	_indices = indices_;
+	_data = data_;
+	_rows = size_.first;
+	_cols = size_.second;
 }
 
 template<class _DataType>

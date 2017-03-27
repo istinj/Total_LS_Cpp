@@ -24,8 +24,8 @@ namespace optimizer {
 
 	typedef Vertex<RobotPose> VertexSE3;
 	typedef Vertex<LandmarkXYZ> VertexXYZ;
-	typedef Edge<LandmarkMeas, OmegaLandmark> EdgePosePoint;
-	typedef Edge<OdometryMeas, OmegaOdom> EdgeOdometry;
+	typedef Edge<PointMeas, OmegaPoint> EdgePosePoint;
+	typedef Edge<PoseMeas, OmegaPose> EdgePosePose;
 
 
 	class Graph {
@@ -42,11 +42,11 @@ namespace optimizer {
 		void addVertexSE3(const VertexSE3& vertex);
 		void addVertexXYZ(const VertexXYZ& vertex);
 		void addEdgePosePoint(const EdgePosePoint& edge_);
-		void addEdgeOdom(const EdgeOdometry& edge_);
+		void addEdgeOdom(const EdgePosePose& edge_);
 
 		inline const std::vector<VertexSE3>& verticesSE3(void) const {return _vertices_SE3;};
 		inline const std::vector<VertexXYZ>& verticesXYZ(void) const {return _vertices_XYZ;};
-		inline const std::vector<EdgeOdometry>& edgesOdometry(void) const {return _edges_odom;};
+		inline const std::vector<EdgePosePose>& edgesOdometry(void) const {return _edges_odom;};
 		inline const std::vector<EdgePosePoint>& edgesPosePoint(void) const {return _edges_land;};
 
 		inline const int numSE3Vertices(void) const {return _vertices_SE3.size();};
@@ -62,7 +62,7 @@ namespace optimizer {
 		std::vector<VertexXYZ> _vertices_XYZ;
 
 		std::vector<EdgePosePoint> _edges_land;
-		std::vector<EdgeOdometry> _edges_odom;
+		std::vector<EdgePosePose> _edges_odom;
 
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW;

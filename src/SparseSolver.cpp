@@ -36,7 +36,7 @@ SparseSolver::SparseSolver(const RobotTrajectory& robot_poses_,
 	int problem_dim = _robot_poses.size() * _land_points.size();
 }
 
-bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
+bool SparseSolver::linearizePosePoint(float& total_chi_, int& inliers_){
 	Matrix3f Jl = Matrix3f::Zero();
 	Matrix3_6f Jr = Matrix3_6f::Zero();
 	Vector3f e = Vector3f::Zero();
@@ -59,7 +59,7 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 			cerr << "Error, bad data association" << endl;
 			return false;
 		}
-		errorAndJacobianLandmark(pose_iter->data(),
+		errorAndJacobianPosePoint(pose_iter->data(),
 				land_iter->data(),
 				it->data(),
 				e, Jl, Jr);
@@ -82,28 +82,28 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
 		Hessian<Matrix6f>* H_pp = new Hessian<Matrix6f>(hessian_indices,
-				h_pp_data);
+				h_pp_data, std::make_pair(6,6));
 		_HessianContainer.insert(H_pp);
 
 		Matrix6_3f h_pl_data = Jr.transpose() * Jl;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix6_3f>* H_pl = new Hessian<Matrix6_3f>(hessian_indices,
-				h_pl_data);
+				h_pl_data, std::make_pair(6,3));
 		_HessianContainer.insert(H_pl);
 
 		Matrix3_6f h_lp_data = Jl.transpose() * Jr;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
 		Hessian<Matrix3_6f>* H_lp = new Hessian<Matrix3_6f>(hessian_indices,
-				h_lp_data);
+				h_lp_data, std::make_pair(3,6));
 		_HessianContainer.insert(H_lp);
 
 		Matrix3f h_ll_data = Jl.transpose() * Jl;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix3f>* H_ll = new Hessian<Matrix3f>(hessian_indices,
-				h_ll_data);
+				h_ll_data, std::make_pair(3,3));
 		_HessianContainer.insert(H_ll);
 
 		//! TODO B?
@@ -117,11 +117,10 @@ bool SparseSolver::linearizeLandmark(float& total_chi_, int& inliers_){
 		b_block_land.blockIndex = col_idx_hessian;
 /**/
 	}
-
 	return true;
 }
 
-bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
+bool SparseSolver::linearizePosePose(float& total_chi_, int& inliers_) {
 	total_chi_ = 0.0;
 	inliers_ = 0;
 
@@ -152,7 +151,7 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 			return false;
 		}
 
-		errorAndJacobianOdometry(pose_i_iter->data(),
+		errorAndJacobianPosePose(pose_i_iter->data(),
 				pose_j_iter->data(),
 				it->data(),
 				e, Ji, Jj);
@@ -175,25 +174,29 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
 		Hessian<Matrix6f>* H_ii = new Hessian<Matrix6f>(hessian_indices,
-				h_block_data);
+				h_block_data, std::make_pair(6,6));
+		_HessianContainer.insert(H_ii);
 
 		h_block_data = Ji.transpose() * Omega * Jj;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix6f>* H_ij = new Hessian<Matrix6f>(hessian_indices,
-				h_block_data);
+				h_block_data, std::make_pair(6,6));
+		_HessianContainer.insert(H_ij);
 
 		h_block_data = Jj.transpose() * Omega * Ji;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
 		Hessian<Matrix6f>* H_ji = new Hessian<Matrix6f>(hessian_indices,
-				h_block_data);
+				h_block_data, std::make_pair(6,6));
+		_HessianContainer.insert(H_ji);
 
 		h_block_data = Jj.transpose() * Omega * Jj;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix6f>* H_jj = new Hessian<Matrix6f>(hessian_indices,
-				h_block_data);
+				h_block_data, std::make_pair(6,6));
+		_HessianContainer.insert(H_jj);
 
 
 		//! TODO B?
@@ -210,9 +213,9 @@ bool SparseSolver::linearizeOdometry(float& total_chi_, int& inliers_) {
 
 	return true;
 }
-void SparseSolver::errorAndJacobianLandmark(const RobotPose& xr,
+void SparseSolver::errorAndJacobianPosePoint(const RobotPose& xr,
 		const LandmarkXYZ& xl,
-		const LandmarkMeas& zl,
+		const PointMeas& zl,
 		Eigen::Vector3f& error,
 		Eigen::Matrix3f& Jl,
 		Matrix3_6f& Jr){
@@ -224,9 +227,9 @@ void SparseSolver::errorAndJacobianLandmark(const RobotPose& xr,
 	Jr.block<3,3>(0,0).setIdentity();
 	Jr.block<3,3>(0,3) = -skew(h_x);
 }
-void SparseSolver::errorAndJacobianOdometry(const RobotPose& xi,
+void SparseSolver::errorAndJacobianPosePose(const RobotPose& xi,
 		const RobotPose& xj,
-		const OdometryMeas& zr,
+		const PoseMeas& zr,
 		Vector12f& error,
 		Matrix12_6f& Ji,
 		Matrix12_6f& Jj){
@@ -277,22 +280,31 @@ void SparseSolver::oneStep(void){
 	float step_chi;
 	int step_inliers;
 
-	cout << _HessianContainer.size() << endl;
-	if(linearizeLandmark(step_chi,step_inliers))
-		cout << CYAN << "inliers land = " << step_inliers << "\t" << "chi land = " << step_chi << RESET << endl;
-	if(linearizeOdometry(step_chi,step_inliers))
+//	if(linearizePosePoint(step_chi,step_inliers))
+//		cout << CYAN << "inliers land = " << step_inliers << "\t" << "chi land = " << step_chi << RESET << endl;
+	if(linearizePosePose(step_chi,step_inliers))
 		cout << GREEN << "inliers odom = " << step_inliers << "\t" << "chi odom = " << step_chi << RESET << endl;
-	cout << _HessianContainer.size() << endl;
+
+//	std::set<GenericHessian*, setCompare>::iterator it = _HessianContainer.begin();
+//	std::advance(it, _HessianContainer.size()-1);
+//	(*it)->print();
 
 	//! TODO CLEAN-UP EVERYTHING (containers + hash_map and so on)
 	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
-		(*it)->print();
-		cin.get();
-//		delete (*it);
+//		(*it)->print();
+//		cin.get();
+		delete (*it);
 	}
 	return; //placeholder
 }
 
+bool SparseSolver::CHDecomp(void){
+	std::map<std::pair<int, int>, GenericHessian*> ch_has;
+	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
+
+	}
+	return true;
+}
 
 int SparseSolver::getPoseMatrixIndex(int curr_pose_idx){
 	if(curr_pose_idx > _robot_poses.size() - 1){

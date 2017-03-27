@@ -1,8 +1,11 @@
 #pragma once
 #include <iostream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-#include <boost/random.hpp>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -37,4 +40,7 @@ struct Association{
 
 Eigen::Matrix4f v2t(const Vector6f& v);
 Eigen::Matrix3f skew(const Eigen::Vector3f& p);
+
+void cholesky(const Matrix6f& input_, Matrix6f& L_);
+void loadMatrix(const std::string& name_, Eigen::MatrixXf& data_);
 
