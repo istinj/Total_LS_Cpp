@@ -12,6 +12,9 @@
 #include <unordered_map>
 #include <vector>
 #include <set>
+
+#include <boost/unordered_map.hpp>
+
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/StdVector>
@@ -80,7 +83,7 @@ private:
 			Matrix12_6f& Ji,
 			Matrix12_6f& Jj);
 
-	bool CHDecomp(void);
+	bool CHDecompose(void);
 
 	int getPoseMatrixIndex(int curr_pose_idx);
 	int getLandMatrixIndex(int curr_land_idx);
@@ -95,6 +98,7 @@ private:
 	//! Hashmap (<index i, index j>, *_DataType)
 	//! hashmap di puntatori a data type
 	std::set<GenericHessian*, setCompare> _HessianContainer;
+	boost::unordered_map<BlockIndices, GenericHessian*> _CholeskyContainer;
 
 	//! TODO Remember to clean-up everything in the destructor (or at the end of the iteration)
 	//! TODO Same for the RHSVector;

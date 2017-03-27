@@ -44,3 +44,8 @@ Eigen::Matrix3f skew(const Eigen::Vector3f& p);
 void cholesky(const Matrix6f& input_, Matrix6f& L_);
 void loadMatrix(const std::string& name_, Eigen::MatrixXf& data_);
 
+//template<int _Dim>
+//void generalCholesky(void){
+//	static const int dim = _Dim;
+//	Eigen::Matrix<float, dim, dim> A;
+//}

@@ -13,6 +13,8 @@
 #include "utilities.h"
 
 namespace optimizer {
+typedef std::pair<int, int> BlockIndices;
+
 //! ----------------------------------------------- !//
 //! ----------- Base class for Hessian ------------ !//
 //! ----------------------------------------------- !//
@@ -25,7 +27,7 @@ public:
 	virtual bool operator<(const GenericHessian& other_);
 	virtual GenericHessian& operator=(const GenericHessian& other_);
 
-	inline const std::pair<int, int>& getIndices(void) const {return _indices;};
+	inline const BlockIndices& getIndices(void) const {return _indices;};
 
 	virtual void set(const std::pair<int, int>& indices_);
 	virtual void print(void);
@@ -41,9 +43,9 @@ template<class _DataType>
 class Hessian : public GenericHessian{
 public:
 	Hessian();
-	Hessian(const std::pair<int, int>& indices_,
+	Hessian(const BlockIndices& indices_,
 			const _DataType& data_);
-	Hessian(const std::pair<int, int>& indices_,
+	Hessian(const BlockIndices& indices_,
 			const _DataType& data_,
 			const std::pair<int, int>& size_);
 	virtual ~Hessian();
@@ -51,12 +53,14 @@ public:
 	virtual bool operator==(const Hessian<_DataType>& other_);
 	virtual Hessian<_DataType>& operator=(const Hessian<_DataType>& other_);
 
-	inline const std::pair<int, int>& getIndices(void) const {return _indices;};
+	inline const BlockIndices& getIndices(void) const {return _indices;};
 	inline const _DataType& getData(void) const {return _data;};
 	inline const int getRows(void) const {return _rows;};
 	inline const int getCols(void) const {return _cols;};
 
-	virtual void set(const std::pair<int, int>& indices_,
+	inline void setData(const _DataType& new_data_){_data = new_data_;};
+
+	virtual void set(const BlockIndices& indices_,
 			const _DataType& data_);
 	virtual void print(void);
 protected:
@@ -79,14 +83,14 @@ Hessian<_DataType>::~Hessian(){
 }
 
 template<class _DataType>
-Hessian<_DataType>::Hessian(const std::pair<int, int>& indices_,
+Hessian<_DataType>::Hessian(const BlockIndices& indices_,
 		const _DataType& data_){
 	_indices = indices_;
 	_data = data_;
 }
 
 template<class _DataType>
-Hessian<_DataType>::Hessian(const std::pair<int, int>& indices_,
+Hessian<_DataType>::Hessian(const BlockIndices& indices_,
 		const _DataType& data_,
 		const std::pair<int, int>& size_){
 	_indices = indices_;
