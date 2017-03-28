@@ -23,8 +23,8 @@ SparseSolver::~SparseSolver() {
 
 SparseSolver::SparseSolver(const RobotTrajectory& robot_poses_,
 		const LandmarkPointsContainer& land_points_,
-		const OdometryMeasContainer& zr_,
-		const LandmarkMeasContainer& zl_,
+		const PosePoseEdgeContainer& zr_,
+		const PosePointEdgeContainer& zl_,
 		const float l_, const float epsilon_){
 	_robot_poses = robot_poses_;
 	_land_points = land_points_;
@@ -44,7 +44,7 @@ bool SparseSolver::linearizePosePoint(float& total_chi_, int& inliers_){
 	total_chi_= 0.0;
 	inliers_ = 0;
 
-	for(LandmarkMeasContainer::iterator it = _Zl.begin(); it != _Zl.end(); ++it){
+	for(PosePointEdgeContainer::iterator it = _Zl.begin(); it != _Zl.end(); ++it){
 		std::pair<int, int> curr_association = it->association();
 
 		RobotTrajectory::iterator pose_iter = std::find(_robot_poses.begin(),
@@ -83,28 +83,28 @@ bool SparseSolver::linearizePosePoint(float& total_chi_, int& inliers_){
 				row_idx_hessian);
 		Hessian<Matrix6f>* H_pp = new Hessian<Matrix6f>(hessian_indices,
 				h_pp_data, std::make_pair(6,6));
-		_HessianContainer.insert(H_pp);
+//		_HessianContainer.insert(H_pp);
 
 		Matrix6_3f h_pl_data = Jr.transpose() * Jl;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix6_3f>* H_pl = new Hessian<Matrix6_3f>(hessian_indices,
 				h_pl_data, std::make_pair(6,3));
-		_HessianContainer.insert(H_pl);
+//		_HessianContainer.insert(H_pl);
 
 		Matrix3_6f h_lp_data = Jl.transpose() * Jr;
 		hessian_indices = make_pair(col_idx_hessian,
 				row_idx_hessian);
 		Hessian<Matrix3_6f>* H_lp = new Hessian<Matrix3_6f>(hessian_indices,
 				h_lp_data, std::make_pair(3,6));
-		_HessianContainer.insert(H_lp);
+//		_HessianContainer.insert(H_lp);
 
 		Matrix3f h_ll_data = Jl.transpose() * Jl;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
 		Hessian<Matrix3f>* H_ll = new Hessian<Matrix3f>(hessian_indices,
 				h_ll_data, std::make_pair(3,3));
-		_HessianContainer.insert(H_ll);
+//		_HessianContainer.insert(H_ll);
 
 		//! TODO B?
 /*
@@ -131,9 +131,11 @@ bool SparseSolver::linearizePosePose(float& total_chi_, int& inliers_) {
 	Matrix<float, 12, 12> Omega = Matrix<float, 12, 12>::Identity();
 	Omega.block<9,9>(0,0) *= 1000.0;
 
-	for (OdometryMeasContainer::iterator it = _Zr.begin(); it != _Zr.end();	++it) {
+	//! For each Pose-Pose edge
+	for (PosePoseEdgeContainer::iterator it = _Zr.begin(); it != _Zr.end();	++it) {
 		std::pair<int, int> curr_association = it->association();
 
+		//! Retrieve the Pose Vertices involved in the current edge
 		RobotTrajectory::iterator pose_i_iter = std::find(_robot_poses.begin(),
 				_robot_poses.end(), curr_association.first);
 		if(pose_i_iter == _robot_poses.end()){
@@ -148,11 +150,13 @@ bool SparseSolver::linearizePosePose(float& total_chi_, int& inliers_) {
 			return false;
 		}
 
+		//! Evaluate error and jacobian
 		errorAndJacobianPosePose(pose_i_iter->data(),
 				pose_j_iter->data(),
 				it->data(),
 				e, Ji, Jj);
 
+		//! Evaluate statistics
 		float chi = e.transpose() * e;
 		if (chi > _threshold) {
 			e *= sqrt(_threshold / chi);
@@ -162,41 +166,79 @@ bool SparseSolver::linearizePosePose(float& total_chi_, int& inliers_) {
 		}
 		total_chi_ += chi;
 
+
+		//! Start building the Hessian
+		//! Each meas introduces 3 blocks in the Hessian Matrix, H_ii, H_ij, H_jj.
+		//! We store them in a unordered_map in order to have a container
+		//! which is easy to access later in the computation of the Cholesky Dec
+
 		int row_idx_hessian = getPoseMatrixIndex(pose_i_iter->index());
 		int col_idx_hessian = getPoseMatrixIndex(pose_j_iter->index());
 
+		//! First block
 		Matrix6f h_block_data = Ji.transpose() * Omega * Ji;
 		pair<int, int> hessian_indices = make_pair(row_idx_hessian,
 				row_idx_hessian);
+
+		//! Save all the indices in a container
+		_HessianIndicesContainer.insert(hessian_indices);
+
 		Hessian<Matrix6f>* H_ii = new Hessian<Matrix6f>(hessian_indices,
 				h_block_data, std::make_pair(6,6));
+		//! Check if there is an entry with the same key in the container
+		if(_HessianContainer.count(hessian_indices)){
+			Hessian<Matrix6f>* temp_hessian = (Hessian<Matrix6f>*)_HessianContainer[hessian_indices];
+			Matrix6f new_h_block_data = temp_hessian->getData() + h_block_data;
+			temp_hessian->setData(new_h_block_data);
+			_HessianContainer[hessian_indices] = temp_hessian;
+		} else {
+			_HessianContainer.insert(make_pair(hessian_indices, H_ii));
+		}
 
-//		if(_HessianContainer.find(H_ii) != _HessianContainer.end()){
-//			//! TODO sum
-//		} else {
-//			_HessianContainer.insert(H_ii);
-//		}
 
+		//! Second block
 		h_block_data = Ji.transpose() * Omega * Jj;
 		hessian_indices = make_pair(row_idx_hessian,
 				col_idx_hessian);
+
+		//! Save all the indices in a container
+		_HessianIndicesContainer.insert(hessian_indices);
+
 		Hessian<Matrix6f>* H_ij = new Hessian<Matrix6f>(hessian_indices,
 				h_block_data, std::make_pair(6,6));
+		//! Check if there is an entry with the same key in the container
+		if(_HessianContainer.count(hessian_indices)){
+			Hessian<Matrix6f>* temp_hessian = (Hessian<Matrix6f>*)_HessianContainer[hessian_indices];
+			Matrix6f new_h_block_data = temp_hessian->getData() + h_block_data;
+			temp_hessian->setData(new_h_block_data);
+			_HessianContainer[hessian_indices] = temp_hessian;
+		} else {
+			_HessianContainer.insert(make_pair(hessian_indices, H_ij));
+		}
 
-//		_HessianContainer.insert(H_ij);
-
+		//! Third block
 		h_block_data = Jj.transpose() * Omega * Jj;
 		hessian_indices = make_pair(col_idx_hessian,
 				col_idx_hessian);
+
+		//! Save all the indices in a container
+		_HessianIndicesContainer.insert(hessian_indices);
+
 		Hessian<Matrix6f>* H_jj = new Hessian<Matrix6f>(hessian_indices,
 				h_block_data, std::make_pair(6,6));
-
-//		_HessianContainer.insert(H_jj);
+		//! Check if there is an entry with the same key in the container
+		if(_HessianContainer.count(hessian_indices)){
+			Hessian<Matrix6f>* temp_hessian = (Hessian<Matrix6f>*)_HessianContainer[hessian_indices];
+			Matrix6f new_h_block_data = temp_hessian->getData() + h_block_data;
+			temp_hessian->setData(new_h_block_data);
+			_HessianContainer[hessian_indices] = temp_hessian;
+		} else {
+			_HessianContainer.insert(make_pair(hessian_indices, H_jj));
+		}
 
 		//! TODO B?
 /*
 		RHSBlock<Vector6f> b_block;
-
 		b_block.data = Ji.transpose() * Omega * e;
 		b_block.blockIndex = row_idx_hessian;
 
@@ -204,7 +246,6 @@ bool SparseSolver::linearizePosePose(float& total_chi_, int& inliers_) {
 		b_block.blockIndex = col_idx_hessian;
 /**/
 	}
-	cout << _HessianContainer.size() << endl;
 	//! Now decompose the Hessian
 	bool result = CHDecompose();
 
@@ -281,13 +322,15 @@ void SparseSolver::oneStep(void){
 		cout << GREEN << "inliers odom = " << step_inliers << "\t" << "chi odom = " << step_chi << RESET << endl;
 
 	//! TODO CLEAN-UP EVERYTHING (containers + hash_map and so on)
-	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
-		delete (*it);
+	for(boost::unordered_map<BlockIndices, GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
+		delete (*it).second;
 	}
 	return; //placeholder
 }
 
 bool SparseSolver::CHDecompose(void){
+
+/*
 	for(std::set<GenericHessian*>::iterator it = _HessianContainer.begin(); it != _HessianContainer.end(); ++it){
 
 		//! U11
@@ -330,6 +373,8 @@ bool SparseSolver::CHDecompose(void){
 //		(*it)->print();
 //		cin.get();
 //	}
+/**/
+
 	return true;
 }
 

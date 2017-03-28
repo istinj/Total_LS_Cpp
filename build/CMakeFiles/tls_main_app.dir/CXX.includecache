@@ -102,22 +102,6 @@ Eigen/Geometry
 SparseSolver.h
 /home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.h
 
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/tls_main.cpp
-stdio.h
--
-iostream
--
-set
--
-Eigen/Core
--
-Graph.h
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Graph.h
-SparseSolver.h
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/SparseSolver.h
-Hessian.hpp
-/home/istin/Documenti/4_TESI/Total_LS_Cpp/src/Hessian.hpp
-
 /usr/include/eigen3/Eigen/Cholesky
 Core
 /usr/include/eigen3/Eigen/Core

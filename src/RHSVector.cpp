@@ -5,7 +5,7 @@
  *      Author: istin
  */
 
-#include "RHSVector.h"
+#include "RHSVector.hpp"
 
 namespace optimizer {
 

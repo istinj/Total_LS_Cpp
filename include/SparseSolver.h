@@ -38,10 +38,10 @@ typedef Eigen::Matrix<float, 12, 1> Vector12f;
 
 typedef std::vector<VertexSE3> RobotTrajectory;
 typedef std::vector<VertexXYZ> LandmarkPointsContainer;
-typedef std::vector<EdgePosePose> OdometryMeasContainer;
-typedef std::vector<EdgePosePoint> LandmarkMeasContainer;
+typedef std::vector<EdgePosePose> PosePoseEdgeContainer;
+typedef std::vector<EdgePosePoint> PosePointEdgeContainer;
 
-struct setCompare{
+struct HessianSetContainerCompare{
 	bool operator()(const GenericHessian* a_, const GenericHessian* b_) const {
 		if(a_->getIndices().first < b_->getIndices().first){
 			return true;
@@ -54,14 +54,27 @@ struct setCompare{
 	}
 };
 
+struct HessianIndicesComparator{
+	bool operator()(const BlockIndices a_, const BlockIndices b_) const {
+		if(a_.first < b_.first){
+			return true;
+		} else {
+			if(a_.first == b_.first)
+				return a_.second < b_.second;
+			else
+				return false;
+		}
+	}
+};
+
 
 class SparseSolver {
 public:
 	SparseSolver();
 	SparseSolver(const RobotTrajectory& robot_poses_,
 			const LandmarkPointsContainer& land_points_,
-			const OdometryMeasContainer& zr_,
-			const LandmarkMeasContainer& zl_,
+			const PosePoseEdgeContainer& zr_,
+			const PosePointEdgeContainer& zl_,
 			const float l_, const float epsilon_);
 	virtual ~SparseSolver();
 
@@ -91,14 +104,17 @@ private:
 	RobotTrajectory _robot_poses;
 	LandmarkPointsContainer _land_points;
 
-	OdometryMeasContainer _Zr;
-	LandmarkMeasContainer _Zl;
+	PosePoseEdgeContainer _Zr;
+	PosePointEdgeContainer _Zl;
 
 	//! NB no matrixXf -> no cached operations
 	//! Hashmap (<index i, index j>, *_DataType)
 	//! hashmap di puntatori a data type
-	std::set<GenericHessian*, setCompare> _HessianContainer;
-	boost::unordered_map<BlockIndices, GenericHessian*> _CholeskyContainer;
+//	std::set<GenericHessian*, HessianSetContainerCompare> _HessianContainer;
+
+	boost::unordered_map<BlockIndices, GenericHessian*> _HessianContainer;
+	std::set<BlockIndices, HessianIndicesComparator> _HessianIndicesContainer;
+//	boost::unordered_map<BlockIndices, GenericHessian*> _CholeskyContainer;
 
 	//! TODO Remember to clean-up everything in the destructor (or at the end of the iteration)
 	//! TODO Same for the RHSVector;
