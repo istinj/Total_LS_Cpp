@@ -25,8 +25,8 @@ Graph::Graph() {
 Graph::Graph(const Graph& graph_){
 	_vertices_SE3 = graph_._vertices_SE3;
 	_vertices_XYZ = graph_._vertices_XYZ;
-	_edges_land = graph_._edges_land;
-	_edges_odom = graph_._edges_odom;
+	_edges_pose_point = graph_._edges_pose_point;
+	_edges_pose_pose = graph_._edges_pose_pose;
 }
 
 Graph::Graph(const string& path_to_graph_){
@@ -46,11 +46,11 @@ void Graph::addVertexXYZ(const VertexXYZ& vertex_){
 }
 
 void Graph::addEdgePosePoint(const EdgePosePoint& edge_){
-	_edges_land.push_back(edge_);
+	_edges_pose_point.push_back(edge_);
 }
 
 void Graph::addEdgeOdom(const EdgePosePose& edge_){
-	_edges_odom.push_back(edge_);
+	_edges_pose_pose.push_back(edge_);
 }
 
 void Graph::loadFromFile(const string& filename){
@@ -159,6 +159,6 @@ void Graph::loadFromFile(const string& filename){
 	}
 	cout << BOLDGREEN << "\t" << "File loaded successfully:" << endl;
 	cout << "\t" << _vertices_SE3.size() << " Vertices SE3\n\t" << _vertices_XYZ.size() << " Vertices XYZ" << endl;
-	cout << "\t" <<	_edges_land.size() << " Edges XYZ\n\t" << _edges_odom.size() << " Edges Odometry" << RESET << endl;
+	cout << "\t" <<	_edges_pose_point.size() << " Edges XYZ\n\t" << _edges_pose_pose.size() << " Edges Odometry" << RESET << endl;
 }
 }/* namespace optimizer */

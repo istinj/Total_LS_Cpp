@@ -46,14 +46,14 @@ namespace optimizer {
 
 		inline const std::vector<VertexSE3>& verticesSE3(void) const {return _vertices_SE3;};
 		inline const std::vector<VertexXYZ>& verticesXYZ(void) const {return _vertices_XYZ;};
-		inline const std::vector<EdgePosePose>& edgesOdometry(void) const {return _edges_odom;};
-		inline const std::vector<EdgePosePoint>& edgesPosePoint(void) const {return _edges_land;};
+		inline const std::vector<EdgePosePose>& edgesPosePose(void) const {return _edges_pose_pose;};
+		inline const std::vector<EdgePosePoint>& edgesPosePoint(void) const {return _edges_pose_point;};
 
 		inline const int numSE3Vertices(void) const {return _vertices_SE3.size();};
 		inline const int numXYZVertices(void) const {return _vertices_XYZ.size();};
 		inline const int graphSize(void) const {return _vertices_SE3.size() * _vertices_XYZ.size();};
-		inline const int numOdomEdges(void) const {return _edges_odom.size();};
-		inline const int numLandEdges(void) const {return _edges_land.size();};
+		inline const int numPosePoseEdges(void) const {return _edges_pose_pose.size();};
+		inline const int numPosePointEdges(void) const {return _edges_pose_point.size();};
 
 	private:
 		//! TODO: List of vertices
@@ -61,8 +61,8 @@ namespace optimizer {
 		std::vector<VertexSE3> _vertices_SE3;
 		std::vector<VertexXYZ> _vertices_XYZ;
 
-		std::vector<EdgePosePoint> _edges_land;
-		std::vector<EdgePosePose> _edges_odom;
+		std::vector<EdgePosePoint> _edges_pose_point;
+		std::vector<EdgePosePose> _edges_pose_pose;
 
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
